@@ -199,12 +199,6 @@ namespace Igtampe.Switchboard.Server {
                 TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
             } 
 
-            //ok now check every connection to see if they're pending.
-            foreach(SwitchboardConnection Connection in Connections.ToArray()) { Connection.Tick();}
-
-            //I'm pretty sure this is a bit of an innefficient way to do this, but if we turn it into an array, its no longer by ref, no? I don't think we can use that and tick each user the same way.
-            //Plus this allows us to modify the root list, since we're itterating over an array, not the list.
-
             foreach(SwitchboardConnection Connection in Connections.ToArray()) {
                 if(!Connection.IsConnected) { 
                     Connections.Remove(Connection);  //if the connection was closed, remove it from the list

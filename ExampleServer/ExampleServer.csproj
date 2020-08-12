@@ -46,8 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colloquor\ColloquorChannel.cs" />
+    <Compile Include="Colloquor\ColloquorExtension.cs" />
+    <Compile Include="Colloquor\Forms\ColloquorChannelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Colloquor\Forms\ColloquorChannelForm.Designer.cs">
+      <DependentUpon>ColloquorChannelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Colloquor\Forms\ColloquorSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Colloquor\Forms\ColloquorSettings.Designer.cs">
+      <DependentUpon>ColloquorSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Colloquor\Forms\ColloquorChannelForm.resx">
+      <DependentUpon>ColloquorChannelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Colloquor\Forms\ColloquorSettings.resx">
+      <DependentUpon>ColloquorSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -76,6 +96,9 @@
       <Project>{5adcff98-0983-4ec7-ae31-f83821358e23}</Project>
       <Name>Switchboard.Server</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Colloquor %28Banner%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -59,5 +59,15 @@ namespace Igtampe.Switchboard.ExampleServer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Colloquor__Banner_ {
+            get {
+                object obj = ResourceManager.GetObject("Colloquor__Banner_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Igtampe.Switchboard.Server;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Igtampe.Colloquor;
 
 namespace ExampleServer {
     static class Program {
@@ -23,10 +24,10 @@ namespace ExampleServer {
                 AllowAnonymousDefault = true,
                 MultiLoginDefault = true,
                 DefaultWelcome = "Bonjour. Welcome to the server.",
-                //ServerExtensions = GetExtensions
+                ServerExtensions = GetExtensions
             };
 
-            Launcher.Launch("Switchboard Server",ExampleConfig);
+            Launcher.Launch("Colloquor Server",ExampleConfig);
 
 
         }
@@ -34,7 +35,7 @@ namespace ExampleServer {
         public static List<SwitchboardExtension> GetExtensions() {
             List<SwitchboardExtension> extensions = new List<SwitchboardExtension>();
 
-            //This is where initialization should go. Add new extensions to the list.
+            extensions.Add(new ColloquorExtension());
 
             return extensions;
         }

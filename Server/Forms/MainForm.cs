@@ -28,6 +28,8 @@ namespace Igtampe.Switchboard.Server.Forms {
         /// <param name="Config">Configuration of the SwitchboardServer this window will run.</param>
         public MainForm(String MainFormTitle, SwitchboardConfiguration Config) {
             InitializeComponent();
+            Text = MainFormTitle;
+            TitleLabel.Text = MainFormTitle;
             ConnectionDetailsButton.Enabled = false;
             DisconnectButton.Enabled = false;
 
