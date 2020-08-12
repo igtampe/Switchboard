@@ -113,7 +113,7 @@ namespace Igtampe.Switchboard.Server {
                             }
                             break;
                         case "CLOSE":
-                            Close();
+                            Close(true);
                             return;
                         default:
                             if(!HeadServer.AllowAnonymous && User == HeadServer.AnonymousUser) { Reply = "You're unauthorized to run any other commands."; } else {
@@ -140,13 +140,15 @@ namespace Igtampe.Switchboard.Server {
                 ConsolePreview += Environment.NewLine + Data.Replace("\n",Environment.NewLine) + Environment.NewLine + Environment.NewLine;
             }
 
+            public void Close() { Close(false); }
+
             /// <summary>Close the connection</summary>
-            public void Close() {
-                while(Busy) { } //Wait for this cosa to not be busy
-                TickThread.Abort();
+            public void Close(bool force) {
+                while(Busy && !force) { } //Wait for this cosa to not be busy
                 if(User != HeadServer.AnonymousUser) { User.SetOnline(false); }
                 River.Close();
                 TheSocket.Close();
+                TickThread.Abort();
             }
 
             public void AsyncTick() {
