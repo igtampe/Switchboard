@@ -15,6 +15,9 @@ namespace Igtampe.Switchboard.Server {
         /// <summary>The "Pen" that will write to logs.</summary>
         protected StreamWriter LogPen;
 
+        /// <summary>Whether or not the logpen is busy or not</summary>
+        private bool LogPenBusy = false;
+
         /// <summary>List that holds active connections</summary>
         protected List<SwitchboardConnection> Connections;
 
@@ -227,9 +230,12 @@ namespace Igtampe.Switchboard.Server {
 
         /// <summary>Writes the specified text to the logfile</summary>
         public void ToLog(String LogItem) {
+            while(LogPenBusy) { }
+            LogPenBusy = true;
             String Line = "[" + DateTime.Now.ToShortTimeString() + "] " + LogItem;
             LogPen.WriteLine(Line);
             Console.WriteLine(Line);
+            LogPenBusy = false;
         }
 
         /// <summary>Saves all users</summary>

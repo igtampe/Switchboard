@@ -59,7 +59,7 @@ namespace Igtampe.Switchboard.Server {
 
                 //If there's data available.
                 if(IsConnected && River.DataAvailable) {
-                    HeadServer.ToLog("Attempting to read message from " + IP.Address.ToString());
+                    //HeadServer.ToLog("Attempting to read message from " + IP.Address.ToString()); //no mas
 
                     //Save all the bytes to an array
                     List<byte> Bytes = new List<byte>();
@@ -148,6 +148,7 @@ namespace Igtampe.Switchboard.Server {
                 if(User != HeadServer.AnonymousUser) { User.SetOnline(false); }
                 River.Close();
                 TheSocket.Close();
+                HeadServer.ToLog("User from " + IP.Address.ToString()); //log disconnections.
                 TickThread.Abort();
             }
 
