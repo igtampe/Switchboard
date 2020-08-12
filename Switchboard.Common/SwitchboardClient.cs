@@ -200,7 +200,7 @@ namespace Igtampe.Switchboard.Common {
             }
 
             ConnectionStatus++; //Increment Connection Status
-            Console.WriteLine(Output); //Render the spinner.
+            Console.Write(Output); //Render the spinner.
         }
 
 
