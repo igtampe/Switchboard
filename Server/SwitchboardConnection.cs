@@ -148,7 +148,7 @@ namespace Igtampe.Switchboard.Server {
                 if(User != HeadServer.AnonymousUser) { User.SetOnline(false); }
                 River.Close();
                 TheSocket.Close();
-                HeadServer.ToLog("User from " + IP.Address.ToString()); //log disconnections.
+                HeadServer.ToLog("User from " + IP.Address.ToString() + " Disconnected."); //log disconnections.
                 TickThread.Abort();
             }
 
