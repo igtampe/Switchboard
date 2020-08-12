@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Igtampe.Switchboard.Server {
 
@@ -24,6 +25,9 @@ namespace Igtampe.Switchboard.Server {
 
             private string ConsolePreview;
             public bool IsConnected => TheSocket.Connected;
+            public bool Busy { get; protected set; } = false;
+
+            private Thread TickThread;
 
             //~~~~~~~~~~~~~~{Constructor}~~~~~~~~~~~~~~
 
@@ -138,16 +142,31 @@ namespace Igtampe.Switchboard.Server {
 
             /// <summary>Close the connection</summary>
             public void Close() {
+                while(Busy) { } //Wait for this cosa to not be busy
+                TickThread.Abort();
                 if(User != HeadServer.AnonymousUser) { User.SetOnline(false); }
                 River.Close();
                 TheSocket.Close();
             }
 
-        
+            public void AsyncTick() {
+
+                while(true) {
+                    Busy = true;
+                    Tick();
+                    if(!IsConnected) { return; }
+                    Busy = false;
+                    Thread.Sleep(100); //every 100 ms so the server has a chance to reply 
+                }
+
+            }
+
+            public void StartAsync() {
+                if(TickThread?.IsAlive==true) { throw new InvalidOperationException("Connection is already ticking"); }
+                TickThread = new Thread(AsyncTick);
+                TickThread.Start();
+            }
+
         }
-
-
     }
-
-
 }

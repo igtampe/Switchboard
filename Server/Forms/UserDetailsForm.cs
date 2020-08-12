@@ -18,6 +18,7 @@ namespace Igtampe.Switchboard.Server.Forms {
         private void OKBTN_Click(object sender,EventArgs e) { Close(); }
 
         private void RefreshDetails() {
+            while(MyConnection.Busy) { } //wait for connection not to be busy.
             if(MyConnection.IsConnected) {UsernameLabel.Text = MyConnection.GetUser().GetUsername() + " (" + MyConnection.GetUser().GetPLevel() + ")";} 
             else {UsernameLabel.Text = "User Disconnected";}
             Text = UsernameLabel.Text;

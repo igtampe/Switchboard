@@ -193,7 +193,9 @@ namespace Igtampe.Switchboard.Server {
 
             //Check if we need to let in another connection.
             if(Ears.Pending()) {
-                Connections.Add(new SwitchboardConnection(this,Ears.AcceptSocket())); //Let them in to the system.
+                SwitchboardConnection Connection = new SwitchboardConnection(this,Ears.AcceptSocket());
+                Connections.Add(Connection); //Let them in to the system.
+                Connection.StartAsync();
                 TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
             } 
 
@@ -238,16 +240,11 @@ namespace Igtampe.Switchboard.Server {
 
         /// <summary>Saves all users</summary>
         protected void SaveUsers() {
-
             if(File.Exists("SwitchboardUsers.txt")) { File.Delete("SwitchboardUsers.txt"); }
             StreamWriter Pen = File.CreateText("SwitchboardUsers.txt");
 
             foreach(SwitchboardUser User in Users) { Pen.WriteLine(User.ToString()); }
             Pen.Close();
         }
-
-
     }
-
-
 }
