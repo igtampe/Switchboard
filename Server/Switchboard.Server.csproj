@@ -73,7 +73,7 @@
       <DependentUpon>ServerSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Launcher.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="SwitchboardConfiguration.cs" />
     <Compile Include="SwitchboardConnection.cs" />
     <Compile Include="SwitchboardExtension.cs" />
     <Compile Include="SwitchboardServer.cs" />

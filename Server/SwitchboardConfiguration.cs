@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Igtampe.Switchboard.Server {
 
     /// <summary>Configuration of the Switchboard Server.</summary>
-    public class Config {
+    public class SwitchboardConfiguration {
 
         /// <summary>Name of this server. By default, "Switchboard Server"</summary>
         public string ServerName { get; set; } = "Switchboard Server";
