@@ -66,7 +66,7 @@
     <Content Include="Switchboard %28green%29.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Switchboard.Common\Switchboard.Common.csproj">
+    <ProjectReference Include="..\Common\Switchboard.Common.csproj">
       <Project>{675c3cf0-d705-4782-83b6-37b97ab1856b}</Project>
       <Name>Switchboard.Common</Name>
     </ProjectReference>

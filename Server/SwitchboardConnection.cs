@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Switchboard {
+namespace Igtampe.Switchboard.Server {
 
     public partial class SwitchboardServer {
         /// <summary>Holds a Switchboard Connection</summary>

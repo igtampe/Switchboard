@@ -3,16 +3,16 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Switchboard;
-using SwitchboardServer;
+using Igtampe.Switchboard.Server;
+using static Igtampe.Switchboard.Server.SwitchboardServer;
 
-namespace SwitchboardServerForm {
+namespace Igtampe.Switchboard.Server.Forms {
     public partial class MainForm:Form {
 
         //------------------------------[Variables]------------------------------
 
         /// <summary>Main server this form holds</summary>
-        private Switchboard.SwitchboardServer MainServer;
+        private SwitchboardServer MainServer;
 
         //These are here so we don't have to load them *during* the backgroundworker.
         private String IP;
@@ -54,7 +54,7 @@ namespace SwitchboardServerForm {
             int ConnectionIndex = ConnectionsListView.SelectedIndices[0];
 
             //Get the connection.
-            Switchboard.SwitchboardServer.SwitchboardConnection Connection = MainServer.GetConnections()[ConnectionIndex];
+           SwitchboardConnection Connection = MainServer.GetConnections()[ConnectionIndex];
 
             //Pass the connection to a connection details form
             new UserDetailsForm(ref Connection).Show();
@@ -153,7 +153,7 @@ namespace SwitchboardServerForm {
         private void ServerTime(object sender,DoWorkEventArgs e) {
                                     
             //First lets start a server.
-            MainServer = new Switchboard.SwitchboardServer(this, IP,Port,Welcome,AllowAnon, AllowMulti);
+            MainServer = new SwitchboardServer(this, IP,Port,Welcome,AllowAnon, AllowMulti);
 
             //now 
             while(!ServerBWorker.CancellationPending) {
@@ -169,7 +169,7 @@ namespace SwitchboardServerForm {
         private void RefreshListview(object sender,ProgressChangedEventArgs e) {
             //Report the progress on the internal server
             ConnectionsListView.Items.Clear();
-            foreach(Switchboard.SwitchboardServer.SwitchboardConnection Con in MainServer.GetConnections()) {
+            foreach(SwitchboardConnection Con in MainServer.GetConnections()) {
                 ListViewItem NLI = new ListViewItem(Con.GetUser().GetUsername());
                 NLI.SubItems.Add(Con.GetIP().Address.ToString());
                 NLI.SubItems.Add(Con.GetConnectedSince().ToShortTimeString() + " " + Con.GetConnectedSince().ToShortDateString());

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Switchboard {
+namespace Igtampe.Switchboard.Server {
 
     /// <summary>Abstract class for Switchboard Extensions</summary>
     public abstract class SwitchboardExtension {

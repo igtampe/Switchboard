@@ -1,4 +1,4 @@
-﻿namespace SwitchboardServerForm {
+﻿namespace Igtampe.Switchboard.Server.Forms {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.

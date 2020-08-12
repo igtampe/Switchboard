@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
+using static Igtampe.Switchboard.Server.SwitchboardServer;
 
-namespace SwitchboardServer {
+namespace Igtampe.Switchboard.Server.Forms {
     public partial class UserDetailsForm:Form {
 
-        Switchboard.SwitchboardServer.SwitchboardConnection MyConnection;
+        SwitchboardConnection MyConnection;
 
-        public UserDetailsForm(ref Switchboard.SwitchboardServer.SwitchboardConnection MyConnection) {
+        public UserDetailsForm(ref SwitchboardConnection MyConnection) {
             InitializeComponent();
             this.MyConnection = MyConnection;
             RefreshDetails();

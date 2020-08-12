@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Switchboard {
+namespace Igtampe.Switchboard.Server {
     
     /// <summary>Configuration of the Switchboard Server.</summary>
     public static class SwitchboardConfiguration {

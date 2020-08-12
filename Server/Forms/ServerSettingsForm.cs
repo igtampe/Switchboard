@@ -4,10 +4,9 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 
-using Switchboard;
 using TinyForms;
 
-namespace SwitchboardServer {
+namespace Igtampe.Switchboard.Server.Forms {
     public partial class ServerSettingsForm:Form {
 
         //------------------------------[Variables]------------------------------

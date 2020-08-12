@@ -1,4 +1,4 @@
-﻿namespace SwitchboardServer {
+﻿namespace Igtampe.Switchboard.Server.Forms {
     partial class NewUserForm {
         /// <summary>
         /// Required designer variable.
@@ -40,84 +40,84 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 15);
+            this.label1.Location = new System.Drawing.Point(10,15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.Size = new System.Drawing.Size(55,13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Username";
             // 
             // UsernameTextBox
             // 
-            this.UsernameTextBox.Location = new System.Drawing.Point(71, 12);
+            this.UsernameTextBox.Location = new System.Drawing.Point(71,12);
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(100, 20);
+            this.UsernameTextBox.Size = new System.Drawing.Size(100,20);
             this.UsernameTextBox.TabIndex = 1;
             this.UsernameTextBox.TextChanged += new System.EventHandler(this.Verify);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 43);
+            this.label2.Location = new System.Drawing.Point(12,43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(53,13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Password";
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(71, 40);
+            this.PasswordTextBox.Location = new System.Drawing.Point(71,40);
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(100, 20);
+            this.PasswordTextBox.Size = new System.Drawing.Size(100,20);
             this.PasswordTextBox.TabIndex = 3;
             this.PasswordTextBox.TextChanged += new System.EventHandler(this.Verify);
             // 
             // PasswordConfirmTextbox
             // 
-            this.PasswordConfirmTextbox.Location = new System.Drawing.Point(71, 66);
+            this.PasswordConfirmTextbox.Location = new System.Drawing.Point(71,66);
             this.PasswordConfirmTextbox.Name = "PasswordConfirmTextbox";
-            this.PasswordConfirmTextbox.Size = new System.Drawing.Size(100, 20);
+            this.PasswordConfirmTextbox.Size = new System.Drawing.Size(100,20);
             this.PasswordConfirmTextbox.TabIndex = 5;
             this.PasswordConfirmTextbox.TextChanged += new System.EventHandler(this.Verify);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 69);
+            this.label3.Location = new System.Drawing.Point(23,69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.Size = new System.Drawing.Size(42,13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Confirm";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 94);
+            this.label4.Location = new System.Drawing.Point(25,94);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 13);
+            this.label4.Size = new System.Drawing.Size(40,13);
             this.label4.TabIndex = 6;
             this.label4.Text = "PLevel";
             // 
             // PermissionLevelUD
             // 
-            this.PermissionLevelUD.Location = new System.Drawing.Point(71, 92);
+            this.PermissionLevelUD.Location = new System.Drawing.Point(71,92);
             this.PermissionLevelUD.Name = "PermissionLevelUD";
-            this.PermissionLevelUD.Size = new System.Drawing.Size(100, 20);
+            this.PermissionLevelUD.Size = new System.Drawing.Size(100,20);
             this.PermissionLevelUD.TabIndex = 7;
             this.PermissionLevelUD.ValueChanged += new System.EventHandler(this.Verify);
             // 
             // ErrorLabel
             // 
-            this.ErrorLabel.Location = new System.Drawing.Point(10, 122);
+            this.ErrorLabel.Location = new System.Drawing.Point(10,122);
             this.ErrorLabel.Name = "ErrorLabel";
-            this.ErrorLabel.Size = new System.Drawing.Size(165, 36);
+            this.ErrorLabel.Size = new System.Drawing.Size(165,36);
             this.ErrorLabel.TabIndex = 8;
             this.ErrorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // OKBtn
             // 
-            this.OKBtn.Location = new System.Drawing.Point(12, 161);
+            this.OKBtn.Location = new System.Drawing.Point(12,161);
             this.OKBtn.Name = "OKBtn";
-            this.OKBtn.Size = new System.Drawing.Size(75, 23);
+            this.OKBtn.Size = new System.Drawing.Size(75,23);
             this.OKBtn.TabIndex = 9;
             this.OKBtn.Text = "OK";
             this.OKBtn.UseVisualStyleBackColor = true;
@@ -125,9 +125,9 @@
             // 
             // CancelBTN
             // 
-            this.CancelBTN.Location = new System.Drawing.Point(96, 161);
+            this.CancelBTN.Location = new System.Drawing.Point(96,161);
             this.CancelBTN.Name = "CancelBTN";
-            this.CancelBTN.Size = new System.Drawing.Size(75, 23);
+            this.CancelBTN.Size = new System.Drawing.Size(75,23);
             this.CancelBTN.TabIndex = 10;
             this.CancelBTN.Text = "Cancel";
             this.CancelBTN.UseVisualStyleBackColor = true;
@@ -135,9 +135,9 @@
             // 
             // NewUserForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F,13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(187, 196);
+            this.ClientSize = new System.Drawing.Size(187,196);
             this.Controls.Add(this.CancelBTN);
             this.Controls.Add(this.OKBtn);
             this.Controls.Add(this.ErrorLabel);

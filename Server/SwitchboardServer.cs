@@ -1,11 +1,11 @@
-﻿using SwitchboardServerForm;
+﻿using Igtampe.Switchboard.Server.Forms;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Switchboard {
+namespace Igtampe.Switchboard.Server {
 
     /// <summary>Holds one (1) Switchboard Server. Part of a complete breakfast</summary>
     public partial class SwitchboardServer {

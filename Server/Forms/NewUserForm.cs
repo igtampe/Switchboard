@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Igtampe.Switchboard.Server;
 
-namespace SwitchboardServer {
+namespace Igtampe.Switchboard.Server.Forms {
     public partial class NewUserForm:Form {
 
-        private List<Switchboard.SwitchboardUser> AllUsers;
+        private List<SwitchboardUser> AllUsers;
 
-        public NewUserForm(ref List<Switchboard.SwitchboardUser> AllUsers) {
+        public NewUserForm(ref List<SwitchboardUser> AllUsers) {
             InitializeComponent();
             this.AllUsers = AllUsers;
 
@@ -27,7 +28,7 @@ namespace SwitchboardServer {
             else {
 
                 //Last check is to check if allusers contains the username.
-                foreach(Switchboard.SwitchboardUser user in AllUsers) {
+                foreach(SwitchboardUser user in AllUsers) {
                     if(user.GetUsername() == UsernameTextBox.Text) { ErrorLabel.Text = "Username Already Exists"; }
                 }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Switchboard {
+namespace Igtampe.Switchboard.Server {
     /// <summary>Holds a Switchboard User</summary>
     public class SwitchboardUser {
 
