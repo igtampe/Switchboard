@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.Common", "Switchboard.Common\Switchboard.Common.csproj", "{675C3CF0-D705-4782-83B6-37B97AB1856B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.Client", "Switchboard.Client\Switchboard.Client.csproj", "{8A473282-F93E-4CBA-8B67-EA2862AB945A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.Console", "Switchboard.Client\Switchboard.Console.csproj", "{8A473282-F93E-4CBA-8B67-EA2862AB945A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.Server", "Switchboard.Server\Switchboard.Server.csproj", "{5ADCFF98-0983-4EC7-AE31-F83821358E23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.ExampleServer", "Switchboard.Server\Switchboard.ExampleServer.csproj", "{5ADCFF98-0983-4EC7-AE31-F83821358E23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

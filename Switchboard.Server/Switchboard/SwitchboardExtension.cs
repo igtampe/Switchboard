@@ -12,7 +12,7 @@ namespace Switchboard {
         protected string Version;
 
         /// <summary>Creates a basic Switchboard Extension</summary>
-        /// <param name="Name">Name of the extension</param>
+        /// <param name="Name">Name of the extension.<br></br><br></br><b>NAME OF EXTENSION SHOULD NOT HAVE SPACES, OTHERWISE HELP WILL BE INACCESSIBLE</b></param>
         /// <param name="Version">Version of the extension</param>
         public SwitchboardExtension(String Name, String Version) { this.Name = Name; this.Version = Version; }
 
@@ -51,8 +51,6 @@ namespace Switchboard {
 
         /// <summary>Handle any initialization of your extension here</summary>
         public DummyExtension() : base("DummyExtension","Version 1.0") { }
-
-        //NAMES OF EXTENSIONS SHOULD NOT HAVE SPACES. OTHERWISE HELP WILL BE INACCESSIBLE.
 
         public override string Help() {return "This is just a dummy extension. Don't have any funny ideas this isn't hiding anything.";}
 

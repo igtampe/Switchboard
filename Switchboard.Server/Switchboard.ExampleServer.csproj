@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5ADCFF98-0983-4EC7-AE31-F83821358E23}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Igtampe.Switchboard.Server</RootNamespace>
+    <RootNamespace>Igtampe.Switchboard.ExampleServer</RootNamespace>
     <AssemblyName>SwitchboardServer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

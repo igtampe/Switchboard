@@ -1,9 +1,9 @@
 ﻿using System;
-using Igtampe.Switchboard.Client.Graphics;
+using Igtampe.Switchboard.Console.Graphics;
 using Igtampe.Switchboard.Common;
 using Igtampe.BasicRender;
 
-namespace Igtampe.Switchboard.Client {
+namespace Igtampe.Switchboard.Console {
     /// <summary>Holds the Switchboard Client</summary>
     public class Program {
 
@@ -16,7 +16,7 @@ namespace Igtampe.Switchboard.Client {
         static void Main(string[] args) {
 
             //Set title and clear the screan
-            Console.Title = "Switchboard Console: Disconnected";
+            System.Console.Title = "Switchboard Console: Disconnected";
             DrawHeader();
 
             //The Main Loop
@@ -46,7 +46,7 @@ namespace Igtampe.Switchboard.Client {
                     case "CLOSE":
                         //Close the connection.
                         if(MainClient == null) { RenderUtils.Echo("No connection to close"); }  //Make sure we cannot close if there is no connection.
-                        else { MainClient.Close(); Prefix = "DISCONNECTED"; Console.Title = "Switchboard Console: Disconnected"; MainClient = null; } //Close the connection.
+                        else { MainClient.Close(); Prefix = "DISCONNECTED"; System.Console.Title = "Switchboard Console: Disconnected"; MainClient = null; } //Close the connection.
                         break;
                     case "READ":
                         //Attempt to read any data that may be there to read.
@@ -111,18 +111,18 @@ namespace Igtampe.Switchboard.Client {
         /// <summary>Updates the connection prefix.</summary>
         public static void UpdatePrefix(String NewPrefix) {
             Prefix = NewPrefix;
-            Console.Title = "Switchboard Console: " + Prefix;
+            System.Console.Title = "Switchboard Console: " + Prefix;
         }
 
         /// <summary>Clears the screen and draws the header</summary>
         public static void DrawHeader() {
-            Console.Clear();
+            System.Console.Clear();
 
             //Draw the header
             SwitchboardLogo Logo = new SwitchboardLogo();
             Logo.Draw(2,1);
-            Draw.Sprite("Switchboard Console [Version 2.0]",Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),2);
-            Draw.Sprite("(C)2020 Chopo, No Rights Reserved",Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),3);
+            Draw.Sprite("Switchboard Console [Version 2.0]",System.Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),2);
+            Draw.Sprite("(C)2020 Chopo, No Rights Reserved",System.Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),3);
 
             //Set the position, and draw a neat little message
             RenderUtils.SetPos(0,2 + Logo.GetHeight());
@@ -135,14 +135,14 @@ namespace Igtampe.Switchboard.Client {
         /// <summary>Prompts the user for input</summary>
         public static string PromptInput() {
             RenderUtils.Echo("\n\n"+Prefix+"> ");
-            return Console.ReadLine();
+            return System.Console.ReadLine();
         }
 
         /// <summary>Prompts the user with Y/N.</summary>
         /// <returns>True if the user hits Y, false otherwise.</returns>
         public static bool YesNo() {
             RenderUtils.Echo("(Y/N) ");
-            return Console.ReadKey().Key == ConsoleKey.Y;
+            return System.Console.ReadKey().Key == ConsoleKey.Y;
         }
 
     }

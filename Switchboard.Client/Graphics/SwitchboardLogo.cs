@@ -1,6 +1,6 @@
 ﻿using Igtampe.BasicGraphics;
 
-namespace Igtampe.Switchboard.Client.Graphics {
+namespace Igtampe.Switchboard.Console.Graphics {
     /// <summary>Switchboard Logo</summary>
     public class SwitchboardLogo:BasicGraphic {
 
