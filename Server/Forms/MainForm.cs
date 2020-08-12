@@ -3,11 +3,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Igtampe.Switchboard.Server;
 using static Igtampe.Switchboard.Server.SwitchboardServer;
 
 namespace Igtampe.Switchboard.Server.Forms {
-    public partial class MainForm:Form {
+    internal partial class MainForm:Form {
 
         //------------------------------[Variables]------------------------------
 
@@ -20,13 +19,19 @@ namespace Igtampe.Switchboard.Server.Forms {
         private bool AllowAnon;
         private bool AllowMulti;
         private String Welcome;
+        internal SwitchboardConfiguration Config;
 
         //------------------------------[Constructor]------------------------------
 
-        public MainForm() {
+        /// <summary>Constructs a mainform with the specified title for a SwitchboardServer with the specified configuration</summary>
+        /// <param name="MainFormTitle">Title of this window</param>
+        /// <param name="Config">Configuration of the SwitchboardServer this window will run.</param>
+        public MainForm(String MainFormTitle, SwitchboardConfiguration Config) {
             InitializeComponent();
             ConnectionDetailsButton.Enabled = false;
             DisconnectButton.Enabled = false;
+
+            this.Config = Config;
 
             ConnectionsListView.Items.Clear();
             ConnectionsListView.Enabled = false;
@@ -36,7 +41,7 @@ namespace Igtampe.Switchboard.Server.Forms {
 
         //------------------------------[Buttons]------------------------------
 
-        /// <summary>Shwne selecting a user from the listview</summary>
+        /// <summary>Handles selecting a user from the listview</summary>
         private void ConnectionsListView_SelectedIndexChanged(object sender,EventArgs e) {
             ConnectionDetailsButton.Enabled = true;
             DisconnectButton.Enabled = true;
@@ -70,7 +75,7 @@ namespace Igtampe.Switchboard.Server.Forms {
 
             //Now launch the de-esta cosa. The settings form will handle loading settings.
 
-            new ServerSettingsForm().ShowDialog();
+            new ServerSettingsForm(ref Config).ShowDialog();
         }
 
         private void DisconnectButton_Click(object sender,EventArgs e) {
@@ -122,7 +127,7 @@ namespace Igtampe.Switchboard.Server.Forms {
                 }
 
                 //Load Welcome Message
-                if(File.Exists("Welcome.txt")) { Welcome = File.ReadAllText("Welcome.txt"); } else { Welcome = SwitchboardConfiguration.DefaultWelcome; }
+                if(File.Exists("Welcome.txt")) { Welcome = File.ReadAllText("Welcome.txt"); } else { Welcome = Config.DefaultWelcome; }
 
                 //Server is not started
                 StatusLabel.Text = "Status: Online";
@@ -139,10 +144,10 @@ namespace Igtampe.Switchboard.Server.Forms {
         //------------------------------[Other Stuff]------------------------------
 
         private void LoadDefault() {
-            IP = SwitchboardConfiguration.DefaultIP;
-            Port = SwitchboardConfiguration.DefaultPort;
-            AllowAnon = SwitchboardConfiguration.AllowAnonymousDefault;
-            AllowMulti = SwitchboardConfiguration.MultiLoginDefault;
+            IP = Config.DefaultIP;
+            Port = Config.DefaultPort;
+            AllowAnon = Config.AllowAnonymousDefault;
+            AllowMulti = Config.MultiLoginDefault;
         }
 
         /// <summary>TODO: Ensure the server is closed properly when closing</summary>

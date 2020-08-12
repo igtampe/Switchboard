@@ -8,7 +8,7 @@ using System.Net.Sockets;
 namespace Igtampe.Switchboard.Server {
 
     /// <summary>Holds one (1) Switchboard Server. Part of a complete breakfast</summary>
-    public partial class SwitchboardServer {
+    internal partial class SwitchboardServer {
 
         //------------------------------[Variables]------------------------------
 
@@ -76,7 +76,7 @@ namespace Igtampe.Switchboard.Server {
                 switch(CommandSplit[0].ToUpper()) {
                     case "VER":
                         //Return version of this server
-                        return SwitchboardConfiguration.ServerName + " [Version " + SwitchboardConfiguration.ServerVersion + "]";
+                        return HeadServer.TheForm.Config.ServerName + " [Version " + HeadServer.TheForm.Config.ServerVersion + "]";
 
                     case "SHOWEXTENSIONS":
                         //Show all extensions on this server
@@ -117,11 +117,11 @@ namespace Igtampe.Switchboard.Server {
         /// <param name="Port">Port to listen on</param>
         /// <param name="WelcomeMessage">Welcome message for each user.</param>
         /// <param name="AllowAnonymous">Allow Anonymous Users on this server.</param>
-        public SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous, bool AllowMultiLogin) {
+        internal SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous, bool AllowMultiLogin) {
 
             //Get us our pen
             LogPen = File.AppendText("SwitchboardLog.log");
-            LogPen.WriteLine("\n\n"+SwitchboardConfiguration.ServerName + " [Version " + SwitchboardConfiguration.ServerVersion + "]\n\n" + "[" + DateTime.Now.ToShortDateString() + "] Starting Server...");
+            LogPen.WriteLine("\n\n"+TheForm.Config.ServerName + " [Version " + TheForm.Config.ServerVersion + "]\n\n" + "[" + DateTime.Now.ToShortDateString() + "] Starting Server...");
 
             //Get us the main form
             this.TheForm = TheForm;
@@ -131,7 +131,7 @@ namespace Igtampe.Switchboard.Server {
 
             //Register the extensions from the Switchboard Configuration and add the default extensions.
             ToLog("Registering extensions...");
-            Extensions = SwitchboardConfiguration.ServerExtensions();
+            Extensions = TheForm.Config.ServerExtensions();
             Extensions.Add(new DummyExtension());
             Extensions.Add(new SwitchboardMainExtension(this));
 

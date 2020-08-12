@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace Igtampe.Switchboard.Server {
 
-    public partial class SwitchboardServer {
+    internal partial class SwitchboardServer {
         /// <summary>Holds a Switchboard Connection</summary>
         public class SwitchboardConnection {
             //SwitchboarConnection needs access to some parts of the headserver, so it has to be nested. Shhh.

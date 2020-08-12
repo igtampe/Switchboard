@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using TinyForms;
 
 namespace Igtampe.Switchboard.Server.Forms {
-    public partial class ServerSettingsForm:Form {
+    internal partial class ServerSettingsForm:Form {
 
         //------------------------------[Variables]------------------------------
 
@@ -16,6 +16,9 @@ namespace Igtampe.Switchboard.Server.Forms {
 
         /// <summary>List that holds all of the users</summary>
         private List<SwitchboardUser> Users;
+
+        /// <summary>Configuration of the server we're managing</summary>
+        private SwitchboardConfiguration Config;
 
         //------------------------------[Internal Classes]------------------------------
 
@@ -29,8 +32,10 @@ namespace Igtampe.Switchboard.Server.Forms {
 
         //------------------------------[Constructor]------------------------------
 
-        public ServerSettingsForm() {
+        public ServerSettingsForm(ref SwitchboardConfiguration Config) {
             InitializeComponent();
+
+            this.Config = Config;
 
             UsersListview.Items.Clear();
             ExtensionsListview.Items.Clear();
@@ -79,7 +84,7 @@ namespace Igtampe.Switchboard.Server.Forms {
             }
 
             //Load extensions and display them.
-            Extensions = SwitchboardConfiguration.ServerExtensions();
+            Extensions = Config.ServerExtensions();
             foreach(SwitchboardExtension extension in Extensions) {
                 ListViewItem NLI = new ListViewItem(extension.GetName());
                 NLI.SubItems.Add(extension.GetVersion());
@@ -88,7 +93,7 @@ namespace Igtampe.Switchboard.Server.Forms {
 
             //Load Welcome.txt
             if(File.Exists("Welcome.txt")) { WelcomeBox.Text = File.ReadAllText("Welcome.txt"); } 
-            else { WelcomeBox.Text = SwitchboardConfiguration.DefaultWelcome; }
+            else { WelcomeBox.Text = Config.DefaultWelcome; }
 
         }
 
@@ -214,10 +219,10 @@ namespace Igtampe.Switchboard.Server.Forms {
 
         /// <summary>Loads default values</summary>
         private void LoadDefault() {
-            IPTextbox.Text = SwitchboardConfiguration.DefaultIP;
-            PortTextbox.Text = SwitchboardConfiguration.DefaultPort.ToString();
-            AnonymousCheckbox.Checked = SwitchboardConfiguration.AllowAnonymousDefault;
-            MultiLoginCheckbox.Checked = SwitchboardConfiguration.MultiLoginDefault;
+            IPTextbox.Text = Config.DefaultIP;
+            PortTextbox.Text = Config.DefaultPort.ToString();
+            AnonymousCheckbox.Checked = Config.AllowAnonymousDefault;
+            MultiLoginCheckbox.Checked = Config.MultiLoginDefault;
         }
 
     }

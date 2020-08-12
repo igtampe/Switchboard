@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Igtampe.Switchboard.Server;
 
 namespace Igtampe.Switchboard.Server.Forms {
-    public partial class NewUserForm:Form {
+    internal partial class NewUserForm:Form {
 
         private List<SwitchboardUser> AllUsers;
 

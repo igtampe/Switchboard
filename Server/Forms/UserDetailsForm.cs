@@ -3,11 +3,11 @@ using System.Windows.Forms;
 using static Igtampe.Switchboard.Server.SwitchboardServer;
 
 namespace Igtampe.Switchboard.Server.Forms {
-    public partial class UserDetailsForm:Form {
+    internal partial class UserDetailsForm:Form {
 
         SwitchboardConnection MyConnection;
 
-        public UserDetailsForm(ref SwitchboardConnection MyConnection) {
+        internal UserDetailsForm(ref SwitchboardConnection MyConnection) {
             InitializeComponent();
             this.MyConnection = MyConnection;
             RefreshDetails();
