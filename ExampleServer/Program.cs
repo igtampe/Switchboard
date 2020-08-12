@@ -15,7 +15,7 @@ namespace ExampleServer {
 
 
             //Most of these values are the default ones within the configuration class itself, but they're here to show u what u can modify.
-            SwitchboardConfiguration ExampleConfig = new SwitchboardConfiguration {
+            Config ExampleConfig = new Config {
                 ServerName = "Switchboard Example Server",
                 ServerVersion = "1.0",
                 DefaultIP = "127.0.0.1",

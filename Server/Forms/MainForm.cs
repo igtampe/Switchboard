@@ -19,14 +19,14 @@ namespace Igtampe.Switchboard.Server.Forms {
         private bool AllowAnon;
         private bool AllowMulti;
         private String Welcome;
-        internal SwitchboardConfiguration Config;
+        internal Config Config;
 
         //------------------------------[Constructor]------------------------------
 
         /// <summary>Constructs a mainform with the specified title for a SwitchboardServer with the specified configuration</summary>
         /// <param name="MainFormTitle">Title of this window</param>
         /// <param name="Config">Configuration of the SwitchboardServer this window will run.</param>
-        public MainForm(String MainFormTitle, SwitchboardConfiguration Config) {
+        public MainForm(String MainFormTitle, Config Config) {
             InitializeComponent();
             ConnectionDetailsButton.Enabled = false;
             DisconnectButton.Enabled = false;

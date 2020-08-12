@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5ADCFF98-0983-4EC7-AE31-F83821358E23}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>Igtampe.Switchboard.Server</RootNamespace>
     <AssemblyName>SwitchboardServer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -73,7 +73,7 @@
       <DependentUpon>ServerSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Launcher.cs" />
-    <Compile Include="SwitchboardConfiguration.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="SwitchboardConnection.cs" />
     <Compile Include="SwitchboardExtension.cs" />
     <Compile Include="SwitchboardServer.cs" />

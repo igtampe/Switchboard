@@ -18,7 +18,7 @@ namespace Igtampe.Switchboard.Server.Forms {
         private List<SwitchboardUser> Users;
 
         /// <summary>Configuration of the server we're managing</summary>
-        private SwitchboardConfiguration Config;
+        private Config Config;
 
         //------------------------------[Internal Classes]------------------------------
 
@@ -32,7 +32,7 @@ namespace Igtampe.Switchboard.Server.Forms {
 
         //------------------------------[Constructor]------------------------------
 
-        public ServerSettingsForm(ref SwitchboardConfiguration Config) {
+        public ServerSettingsForm(ref Config Config) {
             InitializeComponent();
 
             this.Config = Config;

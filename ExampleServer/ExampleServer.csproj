@@ -7,7 +7,7 @@
     <ProjectGuid>{73E9BECA-56AD-456C-88EB-138939DB2DA1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Igtampe.Switchboard.ExampleServer</RootNamespace>
-    <AssemblyName>SwitchboardServer</AssemblyName>
+    <AssemblyName>Server</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
