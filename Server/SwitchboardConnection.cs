@@ -96,12 +96,15 @@ namespace Igtampe.Switchboard.Server {
                                     else {
                                         User = myUser;
                                         User.SetOnline(true);
-                                        HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the list, this connection has logged in
+
+                                        //Refresh the list, this connection has logged in
+                                        try {HeadServer.TheForm.ServerBWorker.ReportProgress(0); } catch(Exception) {}
+                                        //In a try because this may cause a problem if two users try to log in at the same time. The user will still sign in though, so this would sitll
+                                        //refresh anyways, so no need to worry.
+
                                         Reply = "0"; //SUCCESS
                                     }
-                                } else {
-                                    Reply = "1"; //INVALID
-                                }
+                                } else {Reply = "1"; } //INVALID
                             }
                             break;
                         case "LOGOUT":

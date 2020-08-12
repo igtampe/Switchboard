@@ -168,7 +168,7 @@ namespace Igtampe.Switchboard.Server.Forms {
                 Thread.Sleep(50);  //sleep to make sure this doesn't drive my computer insane
             }
 
-            //if there is a cancelation pending:
+            //if there is a cancellation pending:
             MainServer.Close();
 
         }
@@ -177,6 +177,7 @@ namespace Igtampe.Switchboard.Server.Forms {
             //Report the progress on the internal server
             ConnectionsListView.Items.Clear();
             foreach(SwitchboardConnection Con in MainServer.GetConnections()) {
+                while(Con.Busy) { } //Wait for the connection to not be busy to make sure we can actually read all of these things (Especially the user).
                 ListViewItem NLI = new ListViewItem(Con.GetUser().GetUsername());
                 NLI.SubItems.Add(Con.GetIP().Address.ToString());
                 NLI.SubItems.Add(Con.GetConnectedSince().ToShortTimeString() + " " + Con.GetConnectedSince().ToShortDateString());
