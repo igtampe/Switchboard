@@ -156,7 +156,7 @@ namespace Igtampe.Switchboard.Server {
                     Tick();
                     if(!IsConnected) { return; }
                     Busy = false;
-                    Thread.Sleep(500); //every 100 ms so the server has a chance to reply 
+                    Thread.Sleep(100); //every 100 ms so the server has a chance to reply 
                 }
 
             }
