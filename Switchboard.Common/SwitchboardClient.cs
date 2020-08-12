@@ -189,7 +189,7 @@ namespace Igtampe.Switchboard.Common {
                     Output = "-";
                     break;
                 case 2:
-                    Output = "\\"; //two because we need to escpae.
+                    Output = "\\"; //two because we need to ecapse.
                     break;
                 case 3:
                     Output = "|";

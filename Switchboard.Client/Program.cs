@@ -4,7 +4,8 @@ using Igtampe.Switchboard.Common;
 using Igtampe.BasicRender;
 
 namespace Igtampe.Switchboard.Client {
-    class Program {
+    /// <summary>Holds the Switchboard Client</summary>
+    public class Program {
 
         /// <summary>Prefix for the "Command Prompt"</summary>
         public static String Prefix = "DISCONNECTED";
@@ -17,7 +18,6 @@ namespace Igtampe.Switchboard.Client {
             //Set title and clear the screan
             Console.Title = "Switchboard Console: Disconnected";
             DrawHeader();
-
 
             //The Main Loop
             while(true) {
@@ -41,7 +41,7 @@ namespace Igtampe.Switchboard.Client {
                             if(MainClient.Connect()) { UpdatePrefix(IP); }  //Initialize it, and if we manage to connect, setup the prefix and title.
                             else { MainClient = null; } //If not reset mainclient to null.
 
-                        } else {RenderUtils.Echo("Impropper connection request. Try something like 127.0.0.1:909");}
+                        } else {RenderUtils.Echo("Improper connection request. Try something like 127.0.0.1:909");}
                         break;
                     case "CLOSE":
                         //Close the connection.
@@ -121,13 +121,16 @@ namespace Igtampe.Switchboard.Client {
             //Draw the header
             SwitchboardLogo Logo = new SwitchboardLogo();
             Logo.Draw(2,1);
-            Draw.Sprite("Switchboard Console [Version 1.0]",Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),2);
+            Draw.Sprite("Switchboard Console [Version 2.0]",Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),2);
             Draw.Sprite("(C)2020 Chopo, No Rights Reserved",Console.BackgroundColor,ConsoleColor.White,3 + Logo.GetWidth(),3);
 
             //Set the position, and draw a neat little message
             RenderUtils.SetPos(0,2 + Logo.GetHeight());
             RenderUtils.Echo("Welcome to the Switchboard Console! Type CONNECT [IP]:[PORT] to connect to a server! \n\n");
         }
+
+
+        //Some of these maybe should be moved to BasicRender tbh but eh for now.
 
         /// <summary>Prompts the user for input</summary>
         public static string PromptInput() {
@@ -139,7 +142,7 @@ namespace Igtampe.Switchboard.Client {
         /// <returns>True if the user hits Y, false otherwise.</returns>
         public static bool YesNo() {
             RenderUtils.Echo("(Y/N) ");
-            if(Console.ReadKey().Key==ConsoleKey.Y) { return true; } else { return false; }
+            return Console.ReadKey().Key == ConsoleKey.Y;
         }
 
     }
