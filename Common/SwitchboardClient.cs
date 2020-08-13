@@ -124,7 +124,7 @@ namespace Igtampe.Switchboard.Common {
         public void Send(String data,bool KeepBusy) {
             if(!Connected) { throw new InvalidOperationException("This client is not connected right now!"); }
             Busy = true;
-            Byte[] Bytes = Encoding.Unicode.GetBytes(data); //Convert the string to bytes.
+            Byte[] Bytes = Encoding.ASCII.GetBytes(data); //Convert the string to bytes.
             River.Write(Bytes,0,Bytes.Length); //send the bytes
             if(!KeepBusy) { Busy = false; }
         }
@@ -146,7 +146,7 @@ namespace Igtampe.Switchboard.Common {
             List<Byte> Bytes = new List<Byte>();
             while(Available) { Bytes.Add((byte)(River.ReadByte())); } //Get all the bytes in a nice little array.
             Busy = false;
-            return Encoding.Unicode.GetString(Bytes.ToArray()); //convert the array of bytes back into a neat little bit of text, and return it.
+            return Encoding.ASCII.GetString(Bytes.ToArray()); //convert the array of bytes back into a neat little bit of text, and return it.
         }
 
         /// <summary>Login on the server</summary>
