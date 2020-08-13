@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace Igtampe.Switchboard.Server {
@@ -65,9 +66,9 @@ namespace Igtampe.Switchboard.Server {
                     List<byte> Bytes = new List<byte>();
                     while(River.DataAvailable) { Bytes.Add((byte)River.ReadByte()); }
 
-                    //Parse that array of bytes as an ASCII encoded string
-                    String Command = System.Text.Encoding.ASCII.GetString(Bytes.ToArray());
-
+                    //Parse that array of bytes as a Unicode encoded string
+                    String Command = System.Text.Encoding.Unicode.GetString(Bytes.ToArray());
+                    Encoding.
                     //Handle VBNullChar or \0 in this case.
                     Command = Command.Replace("\0","");
 
@@ -138,7 +139,7 @@ namespace Igtampe.Switchboard.Server {
 
             /// <summary>Sends data to the client of this connection</summary>
             public void Send(String Data) {
-                Byte[] ReturnBytes = System.Text.Encoding.ASCII.GetBytes(Data);
+                Byte[] ReturnBytes = System.Text.Encoding.Unicode.GetBytes(Data);
                 River.Write(ReturnBytes,0,ReturnBytes.Length);
                 ConsolePreview += Environment.NewLine + Data.Replace("\n",Environment.NewLine) + Environment.NewLine + Environment.NewLine;
             }

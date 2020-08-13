@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Igtampe.Switchboard.Common {
 
-    //In the event of using this outside the console, probably remove the Basicrender calls.
+    /// <summary>Holds one (1) Switchboard Client. Part of a balanced lunch.</summary>
     public class SwitchboardClient {
 
         //------------------------------[Variables]------------------------------
@@ -28,16 +28,16 @@ namespace Igtampe.Switchboard.Common {
         private static int ConnectionStatus=0;
 
         /// <summary>IP of the remote server.</summary>
-        private readonly String IP;
+        public string IP { get; private set; }
 
         /// <summary>Port of the remote server</summary>
-        private readonly int Port;
+        public int Port { get; private set; }
 
         /// <summary>
-        /// Indicates wether the client is busy or not.
+        /// Indicates whether the client is busy or not.
         /// Should help prevent a user/programmer from attempting to send/receive data when the client is already trying to send/receive data.
         /// </summary>
-        private bool Busy;
+        public bool Busy { get; private set; }
 
         /// <summary>Result of a login attempt.</summary>
         public enum LoginResult {
@@ -62,12 +62,6 @@ namespace Igtampe.Switchboard.Common {
             this.Port = Port;
             Client = new TcpClient();
         }
-
-        //------------------------------[Getters]------------------------------
-
-        public String GetIP() { return IP; }
-        public int GetPort() { return Port; }
-        public bool IsBusy() { return Busy; }
 
         //------------------------------[Functions]------------------------------
 
@@ -130,7 +124,7 @@ namespace Igtampe.Switchboard.Common {
         public void Send(String data,bool KeepBusy) {
             if(!Connected) { throw new InvalidOperationException("This client is not connected right now!"); }
             Busy = true;
-            Byte[] Bytes = Encoding.ASCII.GetBytes(data); //Convert the string to bytes.
+            Byte[] Bytes = Encoding.Unicode.GetBytes(data); //Convert the string to bytes.
             River.Write(Bytes,0,Bytes.Length); //send the bytes
             if(!KeepBusy) { Busy = false; }
         }
@@ -152,7 +146,7 @@ namespace Igtampe.Switchboard.Common {
             List<Byte> Bytes = new List<Byte>();
             while(Available) { Bytes.Add((byte)(River.ReadByte())); } //Get all the bytes in a nice little array.
             Busy = false;
-            return Encoding.ASCII.GetString(Bytes.ToArray()); //convert the array of bytes back into a neat little bit of text, and return it.
+            return Encoding.Unicode.GetString(Bytes.ToArray()); //convert the array of bytes back into a neat little bit of text, and return it.
         }
 
         /// <summary>Login on the server</summary>
