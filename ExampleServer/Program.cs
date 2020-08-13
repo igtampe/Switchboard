@@ -3,6 +3,8 @@ using Igtampe.Switchboard.Server;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Igtampe.Colloquor;
+using System.Drawing;
+using System.Reflection;
 
 namespace ExampleServer {
     static class Program {
@@ -27,7 +29,8 @@ namespace ExampleServer {
                 ServerExtensions = GetExtensions
             };
 
-            Launcher.Launch("Colloquor Server",ExampleConfig);
+            //                                 [This huge bit of thing gets the icon from the program you're running it from for consistency] 
+            Launcher.Launch("Colloquor Server",Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),ExampleConfig);
 
 
         }

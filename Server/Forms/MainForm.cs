@@ -26,9 +26,10 @@ namespace Igtampe.Switchboard.Server.Forms {
         /// <summary>Constructs a mainform with the specified title for a SwitchboardServer with the specified configuration</summary>
         /// <param name="MainFormTitle">Title of this window</param>
         /// <param name="Config">Configuration of the SwitchboardServer this window will run.</param>
-        public MainForm(String MainFormTitle, SwitchboardConfiguration Config) {
+        public MainForm(String MainFormTitle,System.Drawing.Icon icon, SwitchboardConfiguration Config) {
             InitializeComponent();
             Text = MainFormTitle;
+            Icon = icon;
             TitleLabel.Text = MainFormTitle;
             ConnectionDetailsButton.Enabled = false;
             DisconnectButton.Enabled = false;
