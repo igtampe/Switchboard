@@ -77,7 +77,7 @@ namespace Igtampe.Switchboard.Console {
                                 break;
                             case SwitchboardClient.LoginResult.SUCCESS:
                                 RenderUtils.Echo("Successfully logged in as " + PromptSplit[1]);
-                                UpdatePrefix(PromptSplit[1] + "@" + MainClient.GetIP());
+                                UpdatePrefix(PromptSplit[1] + "@" + MainClient.IP);
                                 break;
                             default:
                                 break;
@@ -87,7 +87,7 @@ namespace Igtampe.Switchboard.Console {
                         //Try to log out.
                         if(MainClient.Logout()) {
                             RenderUtils.Echo("Logged out successfully!");
-                            UpdatePrefix(MainClient.GetIP());
+                            UpdatePrefix(MainClient.IP);
                         } else { RenderUtils.Echo("Unable to log out. You're already logged out!"); }
 
                         break;
