@@ -33,6 +33,9 @@ namespace Igtampe.Switchboard.Common {
         /// <summary>Port of the remote server</summary>
         public int Port { get; private set; }
 
+        /// <summary>Indicates whether or not this is being run in a console.</summary>
+        private bool ConsoleMode = false;
+
         /// <summary>
         /// Indicates whether the client is busy or not.
         /// Should help prevent a user/programmer from attempting to send/receive data when the client is already trying to send/receive data.
@@ -56,10 +59,14 @@ namespace Igtampe.Switchboard.Common {
 
         //------------------------------[Constructor]------------------------------
 
+        /// <summary>Generates a Switchboard Client in non-console mode, but does not start it.</summary>
+        public SwitchboardClient(String IP,int Port):this(IP,Port,false) { }
+
         /// <summary>Generates a Switchboard Client, but does not start it</summary>
-        public SwitchboardClient(String IP, int Port) {
+        public SwitchboardClient(String IP, int Port,bool ConsoleMode) {
             this.IP = IP;
             this.Port = Port;
+            this.ConsoleMode = ConsoleMode;
             Client = new TcpClient();
         }
 
@@ -142,7 +149,9 @@ namespace Igtampe.Switchboard.Common {
             //10 second time out.
             for(int X = 0; X < 100; X++) {
                 if(Available) { break; }
-                if(Console.KeyAvailable) { if(Console.ReadKey().Key == ConsoleKey.Escape) { return "BREAK"; } } //This is to allow a user to breka the connection
+                if(ConsoleMode) {
+                    if(Console.KeyAvailable) { if(Console.ReadKey().Key == ConsoleKey.Escape) { return "BREAK"; } } //This is to allow a user to breka the connection
+                }
                 Thread.Sleep(100);
             }
 

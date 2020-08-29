@@ -37,7 +37,7 @@ namespace Igtampe.Switchboard.Console {
                             String Port;
                             if(IPPortSplit.Length == 1) { Port = "909"; } else { Port = IPPortSplit[1]; }
 
-                            MainClient = new SwitchboardClient(IP,int.Parse(Port)); //Create client
+                            MainClient = new SwitchboardClient(IP,int.Parse(Port),true); //Create client
                             if(MainClient.Connect(true)) { UpdatePrefix(IP); }  //Initialize it, and if we manage to connect, setup the prefix and title.
                             else { MainClient = null; } //If not reset mainclient to null.
 
