@@ -65,9 +65,14 @@ namespace Igtampe.Switchboard.Common {
 
         //------------------------------[Functions]------------------------------
 
-        /// <summary>Initiate the connection</summary>
+        /// <summary>Initiate the connection without connectanim</summary>
         /// <returns>True if it managed to connect, false otherwise</returns>
-        public Boolean Connect() {
+        public Boolean Connect() { return Connect(false); }
+
+        /// <summary>Initiate the connection</summary>
+        /// <param name="ShowAnim">Select true to show the connection animation on the console. CRASHES FORM APPS</param>
+        /// <returns>True if it managed to connect, false otherwise</returns>
+        public Boolean Connect(bool ShowAnim) {
 
             //Attempt to connect.
             Console.Write("Attempting to connect to " + IP + ":" + Port + " ");
@@ -75,7 +80,7 @@ namespace Igtampe.Switchboard.Common {
 
             //15 second time out
             for(int i = 0; i < 30; i++) {
-                ConnectAnim();
+                if(ShowAnim) { ConnectAnim(); }
                 if(Client.Connected) { break; }
                 Thread.Sleep(500);
             }
