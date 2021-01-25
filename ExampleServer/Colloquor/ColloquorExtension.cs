@@ -5,11 +5,13 @@ using System.Linq;
 using Igtampe.Switchboard.Server;
 
 namespace Igtampe.Colloquor {
+
+    /// <summary>The Main Colloquor Extension</summary>
     public partial class ColloquorExtension:SwitchboardExtension {
 
 
         private static readonly string[] DefaultSettings = {"1","General:Welcome to General:"};
-        readonly Dictionary<String,ColloquorChannel> ChannelDictionary;
+        readonly Dictionary<string,ColloquorChannel> ChannelDictionary;
         readonly Dictionary<SwitchboardUser,ColloquorChannel> UserChannelDictionary;
 
         private int PermissionLevel=1;
@@ -22,9 +24,9 @@ namespace Igtampe.Colloquor {
             UserChannelDictionary = new Dictionary<SwitchboardUser,ColloquorChannel>();
 
             try { 
-                String[] AllLines = File.ReadAllLines("Colloquor.CFG");
-                foreach(String Line in AllLines) {
-                    String[] LineSplit = Line.Split(':');
+                string[] AllLines = File.ReadAllLines("Colloquor.CFG");
+                foreach(string Line in AllLines) {
+                    string[] LineSplit = Line.Split(':');
                     if(LineSplit.Length == 1) { 
                         PermissionLevel = int.Parse(Line); 
                     }
@@ -55,7 +57,7 @@ namespace Igtampe.Colloquor {
             if(!User.CanExecute(PermissionLevel)) { return "NOEXECUTE"; }
 
             Command = Command.Remove(0,6); //Remove "CQUOR "
-            String[] CommandSplit = Command.Split(' ');
+            string[] CommandSplit = Command.Split(' ');
 
             switch(CommandSplit[0].ToUpper()) {
                 case "JOIN":
@@ -93,9 +95,9 @@ namespace Igtampe.Colloquor {
                     //Send a list of all channels. The list should appear as:
                     //CHANNEL_NAME:CHANNEL_HAS_PASSWORD,CHANNEL_NAME2...
 
-                    List<String> AllChannels = new List<String>();
+                    List<string> AllChannels = new List<string>();
                     foreach(ColloquorChannel channel in ChannelDictionary.Values) {AllChannels.Add(channel.ToListChannelString());}
-                    return String.Join(",",AllChannels);
+                    return string.Join(",",AllChannels);
 
                 case "SEND":
                     if(!UserChannelDictionary.ContainsKey(User)) { return "NOT CONNECTED"; }
@@ -134,7 +136,7 @@ namespace Igtampe.Colloquor {
         /// <summary>Saves Colloquor's Settings.</summary>
         public void SaveSettings() {
 
-            List<String> AllLines = new List<string> {PermissionLevel.ToString()};
+            List<string> AllLines = new List<string> {PermissionLevel.ToString()};
             foreach(ColloquorChannel Channel in ChannelDictionary.Values) {AllLines.Add(Channel.ToString());}
 
             File.Delete("Colloquor.CFG");

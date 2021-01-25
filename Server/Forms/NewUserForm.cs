@@ -6,7 +6,7 @@ using Igtampe.Switchboard.Server;
 namespace Igtampe.Switchboard.Server.Forms {
     internal partial class NewUserForm:Form {
 
-        private List<SwitchboardUser> AllUsers;
+        private readonly List<SwitchboardUser> AllUsers;
 
         public NewUserForm(ref List<SwitchboardUser> AllUsers) {
             InitializeComponent();

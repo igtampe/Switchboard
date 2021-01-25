@@ -33,8 +33,7 @@ namespace ExampleServer {
         }
 
         public static List<SwitchboardExtension> GetExtensions() {
-            List<SwitchboardExtension> extensions = new List<SwitchboardExtension>();
-            extensions.Add(new ColloquorExtension());
+            List<SwitchboardExtension> extensions = new List<SwitchboardExtension> {new ColloquorExtension()};
             return extensions;
         }
 

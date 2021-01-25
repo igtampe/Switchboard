@@ -111,7 +111,7 @@ namespace Igtampe.Switchboard.Server {
                     while(River.DataAvailable) { Bytes.Add((byte)River.ReadByte()); }
 
                     //Parse that array of bytes as a ASCII encoded string
-                    String Command = Encoding.ASCII.GetString(Bytes.ToArray());
+                    string Command = Encoding.ASCII.GetString(Bytes.ToArray());
                     
                     //Handle VBNullChar or \0 in this case.
                     Command = Command.Replace("\0","");
@@ -120,9 +120,9 @@ namespace Igtampe.Switchboard.Server {
                     ConsolePreview += IP.Address + "> " + Command;
 
                     //Now let's try to parse it.
-                    String Reply = "";
+                    string Reply = "";
 
-                    String[] CommandSplit = Command.Split(' ');
+                    string[] CommandSplit = Command.Split(' ');
                     switch(CommandSplit[0].ToUpper()) {
                         case "WELCOME":
                             Reply = HeadServer.GetWelcomeMessage();
@@ -196,7 +196,7 @@ namespace Igtampe.Switchboard.Server {
                         default:
                             if(!HeadServer.AllowAnonymous && User == HeadServer.AnonymousUser) { Reply = "You're unauthorized to run any other commands."; } else {
                                 foreach(SwitchboardExtension extension in HeadServer.Extensions) {
-                                    if(!String.IsNullOrEmpty(Reply)) { break; }
+                                    if(!string.IsNullOrEmpty(Reply)) { break; }
                                     Reply = extension.Parse(ref User,Command);
                                 }
                                 if(string.IsNullOrEmpty(Reply)) { Reply = "Could not parse command [" + Command + "]"; }

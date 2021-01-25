@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Igtampe.Switchboard.Server {
 
@@ -14,7 +13,7 @@ namespace Igtampe.Switchboard.Server {
         /// <summary>Creates a basic Switchboard Extension</summary>
         /// <param name="Name">Name of the extension.<br></br><br></br><b>NAME OF EXTENSION SHOULD NOT HAVE SPACES, OTHERWISE HELP WILL BE INACCESSIBLE</b></param>
         /// <param name="Version">Version of the extension</param>
-        public SwitchboardExtension(String Name, String Version) { this.Name = Name; this.Version = Version; }
+        public SwitchboardExtension(string Name, string Version) { this.Name = Name; this.Version = Version; }
 
         /// <summary>Should executes every tick</summary>
         public virtual void Tick() { }
@@ -30,7 +29,7 @@ namespace Igtampe.Switchboard.Server {
         /// <param name="User">USER attempting to execute a command within this extension</param>
         /// <param name="Command">The command the user is trying to execute</param>
         /// <returns>A string if the extension was able to parse it, otherwise null</returns>
-        public abstract string Parse(ref SwitchboardUser User,String Command);
+        public abstract string Parse(ref SwitchboardUser User,string Command);
 
         /// <summary>
         /// returns a bit of info on the extension and help with its commands.
@@ -52,8 +51,14 @@ namespace Igtampe.Switchboard.Server {
         /// <summary>Handle any initialization of your extension here</summary>
         public DummyExtension() : base("DummyExtension","Version 1.0") { }
 
+        /// <summary>The dummy extension's Help information</summary>
+        /// <returns></returns>
         public override string Help() {return "This is just a dummy extension. Don't have any funny ideas this isn't hiding anything.";}
 
+        /// <summary>Returns a congratulation message when given "CONNECTED"</summary>
+        /// <param name="User"></param>
+        /// <param name="Command"></param>
+        /// <returns></returns>
         public override string Parse(ref SwitchboardUser User,string Command) {
 
             if(Command == "CONNECTED") { return "Congrats! You've connected to the server!"; }

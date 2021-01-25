@@ -88,6 +88,8 @@
         private System.Windows.Forms.Label TheLabel;
         private System.Windows.Forms.Button OKBtn;
         private System.Windows.Forms.Button CancelBTN;
+
+        /// <summary>Textbox for this mini textbox</summary>
         public System.Windows.Forms.TextBox TheBox;
     }
 }

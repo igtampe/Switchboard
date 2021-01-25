@@ -34,7 +34,7 @@ namespace Igtampe.Switchboard.Common {
         public int Port { get; private set; }
 
         /// <summary>Indicates whether or not this is being run in a console.</summary>
-        private bool ConsoleMode = false;
+        private readonly bool ConsoleMode = false;
 
         /// <summary>
         /// Indicates whether the client is busy or not.
@@ -60,10 +60,10 @@ namespace Igtampe.Switchboard.Common {
         //------------------------------[Constructor]------------------------------
 
         /// <summary>Generates a Switchboard Client in non-console mode, but does not start it.</summary>
-        public SwitchboardClient(String IP,int Port):this(IP,Port,false) { }
+        public SwitchboardClient(string IP,int Port):this(IP,Port,false) { }
 
         /// <summary>Generates a Switchboard Client, but does not start it</summary>
-        public SwitchboardClient(String IP, int Port,bool ConsoleMode) {
+        public SwitchboardClient(string IP, int Port,bool ConsoleMode) {
             this.IP = IP;
             this.Port = Port;
             this.ConsoleMode = ConsoleMode;
@@ -74,12 +74,12 @@ namespace Igtampe.Switchboard.Common {
 
         /// <summary>Initiate the connection without connectanim</summary>
         /// <returns>True if it managed to connect, false otherwise</returns>
-        public Boolean Connect() { return Connect(false); }
+        public bool Connect() { return Connect(false); }
 
         /// <summary>Initiate the connection</summary>
         /// <param name="ShowAnim">Select true to show the connection animation on the console. CRASHES FORM APPS</param>
         /// <returns>True if it managed to connect, false otherwise</returns>
-        public Boolean Connect(bool ShowAnim) {
+        public bool Connect(bool ShowAnim) {
 
             //Attempt to connect.
             Console.Write("Attempting to connect to " + IP + ":" + Port + " ");
@@ -125,7 +125,7 @@ namespace Igtampe.Switchboard.Common {
         }
 
         /// <summary>Send data to the switchboard server, and retrieve a response</summary>
-        public String SendReceive(String Data) {
+        public string SendReceive(string Data) {
             Send(Data,true);; 
             return Receive();
         }
@@ -133,16 +133,16 @@ namespace Igtampe.Switchboard.Common {
         /// <summary>Sends data to the Server</summary>
         /// <param name="data">Data to send</param>
         /// <param name="KeepBusy">Whether or not to keep the client busy (in case you're going to receive data right after sending it)</param>
-        public void Send(String data,bool KeepBusy) {
+        public void Send(string data,bool KeepBusy) {
             if(!Connected) { throw new InvalidOperationException("This client is not connected right now!"); }
             Busy = true;
-            Byte[] Bytes = Encoding.ASCII.GetBytes(data); //Convert the string to bytes.
+            byte[] Bytes = Encoding.ASCII.GetBytes(data); //Convert the string to bytes.
             River.Write(Bytes,0,Bytes.Length); //send the bytes
             if(!KeepBusy) { Busy = false; }
         }
 
         /// <summary>Only receive data</summary>
-        public String Receive() {
+        public string Receive() {
             if(!Connected) { throw new InvalidOperationException("This client is not connected right now!"); }
             Busy = true;
 
@@ -157,7 +157,7 @@ namespace Igtampe.Switchboard.Common {
 
             if(!Available) { throw new TimeoutException("Server did not respond in 10 seconds. Probably CLOSE the connection"); }
 
-            List<Byte> Bytes = new List<Byte>();
+            List<byte> Bytes = new List<byte>();
             while(Available) { Bytes.Add((byte)(River.ReadByte())); } //Get all the bytes in a nice little array.
             Busy = false;
             return Encoding.ASCII.GetString(Bytes.ToArray()); //convert the array of bytes back into a neat little bit of text, and return it.
@@ -165,7 +165,7 @@ namespace Igtampe.Switchboard.Common {
 
         /// <summary>Login on the server</summary>
         /// <returns>The appropriate login result</returns>
-        public LoginResult Login(String Username, String Password) {
+        public LoginResult Login(string Username, string Password) {
             switch(SendReceive("LOGIN " + Username + " " + Password)) {
                 case "0":
                     return LoginResult.SUCCESS;
@@ -188,7 +188,7 @@ namespace Igtampe.Switchboard.Common {
         /// <summary>Spinner animation</summary>
         public static void ConnectAnim() {
             Console.SetCursorPosition(Console.CursorLeft-1,Console.CursorTop); //Move the cursor a little back
-            String Output = ""; //This will hold our output
+            string Output = ""; //This will hold our output
             switch(ConnectionStatus) {
                 case 0:
                     Output = "/";

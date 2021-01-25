@@ -38,7 +38,7 @@
             this.button2.TabIndex = 7;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // OKBtn
             // 
@@ -90,6 +90,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button OKBtn;
         private System.Windows.Forms.Label TheLabel;
+
+        /// <summary>NumericUpDown for this form</summary>
         public System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }

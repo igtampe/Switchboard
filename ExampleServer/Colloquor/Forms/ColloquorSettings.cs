@@ -118,7 +118,7 @@ namespace Igtampe.Colloquor {
 
         /// <summary>Gets the selected item index on a listview.</summary>
         /// <returns>-2 if no items are selected, otherwise the first selected index.</returns>
-        public int GetSelectedIndex(ListView List) {
+        public static int GetSelectedIndex(ListView List) {
             if(List.SelectedItems.Count != 1) {
                 MessageBox.Show("No item selected!","n o",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return -2; 
@@ -129,7 +129,7 @@ namespace Igtampe.Colloquor {
         /// <summary>Shows A Yes/No Message box</summary>
         /// <param name="Message">Question you want to ask the user</param>
         /// <returns>True if the user clicks yes, false otherwise.</returns>
-        public bool AreYouSure(String Message) {return MessageBox.Show(Message,"Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes;}
+        public static bool AreYouSure(String Message) {return MessageBox.Show(Message,"Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes;}
 
       
     }

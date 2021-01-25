@@ -14,19 +14,20 @@ namespace Igtampe.Switchboard.Server.Forms {
         private SwitchboardServer MainServer;
 
         //These are here so we don't have to load them *during* the backgroundworker.
-        private String IP;
+        private string IP;
         private int Port;
         private bool AllowAnon;
         private bool AllowMulti;
-        private String Welcome;
+        private string Welcome;
         internal SwitchboardConfiguration Config;
 
         //------------------------------[Constructor]------------------------------
 
         /// <summary>Constructs a mainform with the specified title for a SwitchboardServer with the specified configuration</summary>
         /// <param name="MainFormTitle">Title of this window</param>
+        /// <param name="icon">Icon of this form</param>
         /// <param name="Config">Configuration of the SwitchboardServer this window will run.</param>
-        public MainForm(String MainFormTitle,System.Drawing.Icon icon, SwitchboardConfiguration Config) {
+        public MainForm(string MainFormTitle,System.Drawing.Icon icon, SwitchboardConfiguration Config) {
             InitializeComponent();
             Text = MainFormTitle;
             Icon = icon;

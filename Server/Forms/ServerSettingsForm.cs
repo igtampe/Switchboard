@@ -18,15 +18,15 @@ namespace Igtampe.Switchboard.Server.Forms {
         private List<SwitchboardUser> Users;
 
         /// <summary>Configuration of the server we're managing</summary>
-        private SwitchboardConfiguration Config;
+        private readonly SwitchboardConfiguration Config;
 
         //------------------------------[Internal Classes]------------------------------
 
         private class ManageableUser:SwitchboardUser{
-            public ManageableUser(String Userstring):base(Userstring) { }
-            public ManageableUser(String Username,String Password,int PLevel,String LastOnline):base(Username,Password,PLevel,LastOnline) { }
+            public ManageableUser(string Userstring):base(Userstring) { }
+            public ManageableUser(string Username,string Password,int PLevel,string LastOnline):base(Username,Password,PLevel,LastOnline) { }
 
-            public void SetPassword(String Password) { this.Password = Password; }
+            public void SetPassword(string Password) { this.Password = Password; }
             public void SetPLevel(int PLevel) { PermissionLevel = PLevel; }
         }
 
@@ -57,7 +57,7 @@ namespace Igtampe.Switchboard.Server.Forms {
 
                 try {
 
-                    String[] Settings = File.ReadAllLines("SwitchboardServer.cfg")[0].Split(':');
+                    string[] Settings = File.ReadAllLines("SwitchboardServer.cfg")[0].Split(':');
                     IPTextbox.Text = Settings[0];
                     PortTextbox.Text = Settings[1];
                     AnonymousCheckbox.Checked = bool.Parse(Settings[2]);
@@ -74,10 +74,10 @@ namespace Igtampe.Switchboard.Server.Forms {
             Users = new List<SwitchboardUser>();
             if(File.Exists("SwitchboardUsers.txt")) {
                 //Read all lines from the file
-                String[] UserStrings = File.ReadAllLines("SwitchboardUsers.txt");
+                string[] UserStrings = File.ReadAllLines("SwitchboardUsers.txt");
 
                 //For each userstring, add a new user
-                foreach(String UserString in UserStrings) {Users.Add(new ManageableUser(UserString));}
+                foreach(string UserString in UserStrings) {Users.Add(new ManageableUser(UserString));}
 
                 UpdateUserListView();
 
@@ -112,7 +112,7 @@ namespace Igtampe.Switchboard.Server.Forms {
             //ok now save everything
 
             if(File.Exists("SwitchboardServer.cfg")) { File.Delete("SwitchboardServer.cfg"); }
-            File.WriteAllText("SwitchboardServer.cfg",String.Join(":",IPTextbox.Text,PortTextbox.Text,AnonymousCheckbox.Checked,MultiLoginCheckbox.Checked));
+            File.WriteAllText("SwitchboardServer.cfg",string.Join(":",IPTextbox.Text,PortTextbox.Text,AnonymousCheckbox.Checked,MultiLoginCheckbox.Checked));
 
             if(File.Exists("Welcome.txt")) { File.Delete("Welcome.txt"); }
             File.WriteAllText("Welcome.txt",WelcomeBox.Text);

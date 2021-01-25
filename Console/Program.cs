@@ -5,111 +5,114 @@ using Igtampe.BasicRender;
 
 namespace Igtampe.Switchboard.Console {
     /// <summary>Holds the Switchboard Client</summary>
-    public class Program {
+    public static class Program {
 
         /// <summary>Prefix for the "Command Prompt"</summary>
-        public static String Prefix = "DISCONNECTED";
+        public static string Prefix = "DISCONNECTED";
 
         /// <summary>The SwitchboardClient object</summary>
         public static SwitchboardClient MainClient;
 
         static void Main(string[] args) {
 
-            //Set title and clear the screan
+            //Set title and clear the screen
             System.Console.Title = "Switchboard Console: Disconnected";
             DrawHeader();
 
-            //The Main Loop
-            while(true) {
-
-                //Get input
-                String Prompt = PromptInput();
-                String[] PromptSplit = Prompt.Split(' ');
-
-                //Try to locally parse the message
-                switch(PromptSplit[0].ToUpper()) {
-                    case "CONNECT":
-                        //attempt to connect to a Server
-                        if(MainClient != null) { RenderUtils.Echo("There's already an ongoing connection! Close this one to open another one."); break; } //Make sure we're not already connected
-                        if(PromptSplit.Length == 2) {
-                            String[] IPPortSplit = PromptSplit[1].Split(':'); //Split the IP and port
-                            String IP = IPPortSplit[0];
-                            String Port;
-                            if(IPPortSplit.Length == 1) { Port = "909"; } else { Port = IPPortSplit[1]; }
-
-                            MainClient = new SwitchboardClient(IP,int.Parse(Port),true); //Create client
-                            if(MainClient.Connect(true)) { UpdatePrefix(IP); }  //Initialize it, and if we manage to connect, setup the prefix and title.
-                            else { MainClient = null; } //If not reset mainclient to null.
-
-                        } else {RenderUtils.Echo("Improper connection request. Try something like 127.0.0.1:909");}
-                        break;
-                    case "CLOSE":
-                        //Close the connection.
-                        if(MainClient == null) { RenderUtils.Echo("No connection to close"); }  //Make sure we cannot close if there is no connection.
-                        else { MainClient.Close(); Prefix = "DISCONNECTED"; System.Console.Title = "Switchboard Console: Disconnected"; MainClient = null; } //Close the connection.
-                        break;
-                    case "READ":
-                        //Attempt to read any data that may be there to read.
-                        if(MainClient == null) { RenderUtils.Echo("No connection to read from!"); break; }
-                        if(!MainClient.Available) {
-                            RenderUtils.Echo("No data is available! Wait for data? ");
-                            if(!YesNo()) { break; } //Display a warning if there is no data to read, and if the user wants to read the data.
-                        }
-                        try { RenderUtils.Echo(MainClient.Receive()); } catch(Exception) { Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?",ConsoleColor.Black,ConsoleColor.Red); }
-                        //Read the data and display it.
-                        break;
-                    case "CLS":
-                        //Clear the screen.
-                        DrawHeader();
-                        break;
-                    case "LOGIN":
-                        if(PromptSplit.Length != 3) { RenderUtils.Echo("Invalid Login Credentials"); break; }
-                        //now let's log in.
-                        switch(MainClient.Login(PromptSplit[1],PromptSplit[2])) {
-                            case SwitchboardClient.LoginResult.ALREADY:
-                                RenderUtils.Echo("Already logged in");
-                                break;
-                            case SwitchboardClient.LoginResult.INVALID:
-                                RenderUtils.Echo("Invalid Login Credentials");
-                                break;
-                            case SwitchboardClient.LoginResult.OTHERLOCALE:
-                                RenderUtils.Echo("Already logged in on another connection");
-                                break;
-                            case SwitchboardClient.LoginResult.SUCCESS:
-                                RenderUtils.Echo("Successfully logged in as " + PromptSplit[1]);
-                                UpdatePrefix(PromptSplit[1] + "@" + MainClient.IP);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    case "LOGOUT":
-                        //Try to log out.
-                        if(MainClient.Logout()) {
-                            RenderUtils.Echo("Logged out successfully!");
-                            UpdatePrefix(MainClient.IP);
-                        } else { RenderUtils.Echo("Unable to log out. You're already logged out!"); }
-
-                        break;
-                    default:
-                        //Try to send the commend to the server.
-                        if(MainClient == null || !MainClient.Connected) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); }  //warn the user if there's no connection.
-                        else {
-                            //The console doesn't need to check if the client is busy since there are no other threads, but if you're doing this with a background worker and are trying to send
-                            //anything maybe check that.
-                            try {RenderUtils.Echo(MainClient.SendReceive(Prompt));} 
-                            catch(Exception) {Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?",ConsoleColor.Black,ConsoleColor.Red);}
-                        }
-                        break;
-                }
-
+            if(args.Length > 0) {
+                Parse("CONNECT " + args[0]);
+                if(args.Length > 2) {Parse("LOGIN " + args[1] + " " + args[2]);}
             }
 
+            //The Main Loop
+            while(true) {Parse(PromptInput());}
 
         }
 
+        /// <summary>Locally parses a prompt</summary>
+        /// <param name="prompt"></param>
+        public static void Parse(string prompt) {
+
+            string[] PromptSplit = prompt.Split(' ');
+
+            switch(PromptSplit[0].ToUpper()) {
+                case "CONNECT":
+                    //attempt to connect to a Server
+                    if(MainClient != null) { RenderUtils.Echo("There's already an ongoing connection! Close this one to open another one."); break; } //Make sure we're not already connected
+                    if(PromptSplit.Length == 2) {
+                        string[] IPPortSplit = PromptSplit[1].Split(':'); //Split the IP and port
+                        string IP = IPPortSplit[0];
+                        string Port;
+                        if(IPPortSplit.Length == 1) { Port = "909"; } else { Port = IPPortSplit[1]; }
+
+                        MainClient = new SwitchboardClient(IP,int.Parse(Port),true); //Create client
+                        if(MainClient.Connect(true)) { UpdatePrefix(IP); }  //Initialize it, and if we manage to connect, setup the prefix and title.
+                        else { MainClient = null; } //If not reset mainclient to null.
+
+                    } else { RenderUtils.Echo("Improper connection request. Try something like 127.0.0.1:909"); }
+                    break;
+                case "CLOSE":
+                    //Close the connection.
+                    if(MainClient == null) { RenderUtils.Echo("No connection to close"); }  //Make sure we cannot close if there is no connection.
+                    else { MainClient.Close(); Prefix = "DISCONNECTED"; System.Console.Title = "Switchboard Console: Disconnected"; MainClient = null; } //Close the connection.
+                    break;
+                case "READ":
+                    //Attempt to read any data that may be there to read.
+                    if(MainClient == null) { RenderUtils.Echo("No connection to read from!"); break; }
+                    if(!MainClient.Available) {
+                        RenderUtils.Echo("No data is available! Wait for data? ");
+                        if(!YesNo()) { break; } //Display a warning if there is no data to read, and if the user wants to read the data.
+                    }
+                    try { RenderUtils.Echo(MainClient.Receive()); } catch(Exception) { Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?",ConsoleColor.Black,ConsoleColor.Red); }
+                    //Read the data and display it.
+                    break;
+                case "CLS":
+                    //Clear the screen.
+                    DrawHeader();
+                    break;
+                case "LOGIN":
+                    if(PromptSplit.Length != 3) { RenderUtils.Echo("Invalid Login Credentials"); break; }
+                    //now let's log in.
+                    switch(MainClient.Login(PromptSplit[1],PromptSplit[2])) {
+                        case SwitchboardClient.LoginResult.ALREADY:
+                            RenderUtils.Echo("Already logged in");
+                            break;
+                        case SwitchboardClient.LoginResult.INVALID:
+                            RenderUtils.Echo("Invalid Login Credentials");
+                            break;
+                        case SwitchboardClient.LoginResult.OTHERLOCALE:
+                            RenderUtils.Echo("Already logged in on another connection");
+                            break;
+                        case SwitchboardClient.LoginResult.SUCCESS:
+                            RenderUtils.Echo("Successfully logged in as " + PromptSplit[1]);
+                            UpdatePrefix(PromptSplit[1] + "@" + MainClient.IP);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "LOGOUT":
+                    //Try to log out.
+                    if(MainClient.Logout()) {
+                        RenderUtils.Echo("Logged out successfully!");
+                        UpdatePrefix(MainClient.IP);
+                    } else { RenderUtils.Echo("Unable to log out. You're already logged out!"); }
+
+                    break;
+                default:
+                    //Try to send the commend to the server.
+                    if(MainClient == null || !MainClient.Connected) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); }  //warn the user if there's no connection.
+                    else {
+                        //The console doesn't need to check if the client is busy since there are no other threads, but if you're doing this with a background worker and are trying to send
+                        //anything maybe check that.
+                        try { RenderUtils.Echo(MainClient.SendReceive(prompt)); } catch(Exception) { Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?",ConsoleColor.Black,ConsoleColor.Red); }
+                    }
+                    break;
+            }
+        }
+
         /// <summary>Updates the connection prefix.</summary>
-        public static void UpdatePrefix(String NewPrefix) {
+        public static void UpdatePrefix(string NewPrefix) {
             Prefix = NewPrefix;
             System.Console.Title = "Switchboard Console: " + Prefix;
         }

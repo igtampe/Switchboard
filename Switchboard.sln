@@ -11,26 +11,40 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Switchboard.Server", "Serve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleServer", "ExampleServer\ExampleServer.csproj", "{73E9BECA-56AD-456C-88EB-138939DB2DA1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A218DCCF-AFB9-489F-94C1-06E076F9AB0F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		LocalhostConnect|Any CPU = LocalhostConnect|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{675C3CF0-D705-4782-83B6-37B97AB1856B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{675C3CF0-D705-4782-83B6-37B97AB1856B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675C3CF0-D705-4782-83B6-37B97AB1856B}.LocalhostConnect|Any CPU.ActiveCfg = Debug|Any CPU
+		{675C3CF0-D705-4782-83B6-37B97AB1856B}.LocalhostConnect|Any CPU.Build.0 = Debug|Any CPU
 		{675C3CF0-D705-4782-83B6-37B97AB1856B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675C3CF0-D705-4782-83B6-37B97AB1856B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.LocalhostConnect|Any CPU.ActiveCfg = LocalhostConnect|Any CPU
+		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.LocalhostConnect|Any CPU.Build.0 = LocalhostConnect|Any CPU
 		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A473282-F93E-4CBA-8B67-EA2862AB945A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.LocalhostConnect|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.LocalhostConnect|Any CPU.Build.0 = Debug|Any CPU
 		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ADCFF98-0983-4EC7-AE31-F83821358E23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.LocalhostConnect|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.LocalhostConnect|Any CPU.Build.0 = Debug|Any CPU
 		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73E9BECA-56AD-456C-88EB-138939DB2DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -122,11 +122,13 @@ namespace Igtampe.Switchboard.Server {
         //------------------------------[Constructor]------------------------------
 
         /// <summary>Creates and starts a Switchboard Server</summary>
+        /// <param name="TheForm">Form that's managing this server</param>
         /// <param name="IP">IP to listen on</param>
         /// <param name="Port">Port to listen on</param>
         /// <param name="WelcomeMessage">Welcome message for each user.</param>
         /// <param name="AllowAnonymous">Allow Anonymous Users on this server.</param>
-        internal SwitchboardServer(MainForm TheForm, String IP, int Port, String WelcomeMessage, bool AllowAnonymous, bool AllowMultiLogin) {
+        /// <param name="AllowMultiLogin">Allow logins with the same user on different collections</param>
+        internal SwitchboardServer(MainForm TheForm, string IP, int Port, string WelcomeMessage, bool AllowAnonymous, bool AllowMultiLogin) {
 
             //Get us our pen
             LogPen = File.AppendText("SwitchboardLog.log");
@@ -149,7 +151,7 @@ namespace Igtampe.Switchboard.Server {
             Users = new List<SwitchboardUser>();
             if(File.Exists("SwitchboardUsers.txt")) {
                 //Read all lines from the file
-                String[] UserStrings = File.ReadAllLines("SwitchboardUsers.txt");
+                string[] UserStrings = File.ReadAllLines("SwitchboardUsers.txt");
                 
                 //For each userstring, add a new user
                 foreach(String UserString in UserStrings) {Users.Add(new SwitchboardUser(UserString));}
@@ -237,7 +239,7 @@ namespace Igtampe.Switchboard.Server {
         public void Close() {
 
             //Close each connection
-            foreach(SwitchboardConnection Connection in Connections.Values) { Connection.Close(); }
+            foreach(SwitchboardConnection Connection in GetConnections()) { Connection.Close(); }
 
             SaveUsers(); //Save users when we close.
 
@@ -248,10 +250,10 @@ namespace Igtampe.Switchboard.Server {
         }
 
         /// <summary>Writes the specified text to the logfile</summary>
-        public void ToLog(String LogItem) {
+        public void ToLog(string LogItem) {
             while(LogPenBusy) { }
             LogPenBusy = true;
-            String Line = "[" + DateTime.Now.ToShortTimeString() + "] " + LogItem;
+            string Line = "[" + DateTime.Now.ToShortTimeString() + "] " + LogItem;
             LogPen.WriteLine(Line);
             Console.WriteLine(Line);
             LogPenBusy = false;

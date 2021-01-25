@@ -27,6 +27,7 @@ namespace Igtampe.Switchboard.Server {
         /// <summary>Default Welcome Message. By default, "H o l a"</summary>
         public string DefaultWelcome { get; set; } = "H o l a";
 
+        /// <summary>Function that returns a list of server extensions for this server</summary>
         public Func<List<SwitchboardExtension>> ServerExtensions=DefaultServerExtensions;
 
         /// <summary>Gets a list of the extensions from this server</summary>

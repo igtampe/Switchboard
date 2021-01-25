@@ -5,7 +5,7 @@ using static Igtampe.Switchboard.Server.SwitchboardServer;
 namespace Igtampe.Switchboard.Server.Forms {
     internal partial class UserDetailsForm:Form {
 
-        SwitchboardConnection MyConnection;
+        private readonly SwitchboardConnection MyConnection;
 
         internal UserDetailsForm(ref SwitchboardConnection MyConnection) {
             InitializeComponent();
