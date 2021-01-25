@@ -71,6 +71,7 @@ namespace Igtampe.Switchboard.Server {
                     "CLOSE                          : Closes the connection and disconnects you from the server \n" +
                     "LOGIN (USERNAME) (PASSWORD)    : Logs you in if you're currently anonymous\n" +
                     "LOGOUT                         : Logs you out of this terminal, maintains you connected as an anonymous user.\n" +
+                    "USERINFO                       : Sends Username and Permission Level separated by a tilde\n"+
                     "REPEAT                         : Repeats last message \n"+
                     "ID                             : Sends the ID of this connection\n"+
                     "REBIND (CONNECTION ID)         : Binds this connection to a previous connection\n"+
@@ -80,7 +81,7 @@ namespace Igtampe.Switchboard.Server {
             }
 
             public override string Parse(ref SwitchboardUser User,string Command) {
-                String[] CommandSplit = Command.Split(' ');
+                string[] CommandSplit = Command.Split(' ');
 
                 switch(CommandSplit[0].ToUpper()) {
                     case "VER":

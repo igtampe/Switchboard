@@ -163,6 +163,9 @@ namespace Igtampe.Switchboard.Server {
                         case "CLOSE":
                             Close(true);
                             return;
+                        case "USERINFO":
+                            Reply = string.Join("~",User.GetUsername(),User.GetPLevel());
+                            break;
                         case "ID":
                             Reply = ID + "";
                             break;
