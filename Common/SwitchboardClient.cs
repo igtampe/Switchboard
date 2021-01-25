@@ -27,6 +27,9 @@ namespace Igtampe.Switchboard.Common {
         /// <summary>counter for the animation</summary>
         private static int ConnectionStatus=0;
 
+        /// <summary>ID of this connection</summary>
+        private int ID=-1;
+
         /// <summary>IP of the remote server.</summary>
         public string IP { get; private set; }
 
@@ -55,6 +58,21 @@ namespace Igtampe.Switchboard.Common {
 
             /// <summary>Already logged in on another connection</summary>
             OTHERLOCALE=3
+        }
+
+        /// <summary>Result of a Reconnection Attempt</summary>
+        public enum ReconnectResult { 
+            /// <summary>Successfully reconnected</summary>
+            SUCCESS = 0,
+
+            /// <summary>Rebind was unsuccessful, but a connection was established</summary>
+            NOREBIND = 1,
+
+            /// <summary>Unable to connect to the server</summary>
+            NOCONNECT = 2,
+
+            /// <summary>There is no saved ID. A Reconnection is impossible.</summary>
+            NOTPOSSIBLE=3
         }
 
         //------------------------------[Constructor]------------------------------
@@ -106,10 +124,37 @@ namespace Igtampe.Switchboard.Common {
             Console.ForegroundColor = ConsoleColor.Gray;
             River = Client.GetStream();
 
+            //See if we can reconnect
+            if(int.TryParse(SendReceive("ID"),out ID)) {Console.WriteLine("Connection ID: " + ID + "\n");}
+
             //Also display the welcome message
             Console.WriteLine(SendReceive("WELCOME"));
 
+
             return true;
+        }
+
+        /// <summary>Reconnects to a session on a Switchboard Server if the connection was interrupted unexpectedly</summary>
+        /// <returns>True if it was possible, false otherwise</returns>
+        public ReconnectResult Reconnect() {
+            if(ID == -1) { return ReconnectResult.NOTPOSSIBLE; }
+
+            int ReconnectID = ID;
+            Console.WriteLine("Attempting to reconnect to connection with ID " + ReconnectID);
+
+            if(Connect()) {
+
+                Console.WriteLine("Attempting to rebind...");
+                if(SendReceive("REBIND " + ReconnectID) == "OK") {
+
+                    Console.WriteLine("Rebind successful! Connection re-established");
+                    return ReconnectResult.SUCCESS; 
+                
+                } 
+                return ReconnectResult.NOREBIND;
+            }
+
+            return ReconnectResult.NOCONNECT;
         }
 
         /// <summary>Close the Client's connection</summary>
