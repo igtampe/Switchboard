@@ -71,6 +71,7 @@ namespace Igtampe.Switchboard.Console {
                     DrawHeader();
                     break;
                 case "LOGIN":
+                    if(MainClient==null ||MainClient?.Connected == false) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); break; }
                     if(PromptSplit.Length != 3) { RenderUtils.Echo("Invalid Login Credentials"); break; }
                     //now let's log in.
                     switch(MainClient.Login(PromptSplit[1],PromptSplit[2])) {
@@ -92,6 +93,9 @@ namespace Igtampe.Switchboard.Console {
                     }
                     break;
                 case "LOGOUT":
+
+                    if(MainClient==null || MainClient?.Connected == false) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); break; }
+
                     //Try to log out.
                     if(MainClient.Logout()) {
                         RenderUtils.Echo("Logged out successfully!");
@@ -100,12 +104,19 @@ namespace Igtampe.Switchboard.Console {
 
                     break;
                 default:
+
                     //Try to send the commend to the server.
-                    if(MainClient == null || !MainClient.Connected) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); }  //warn the user if there's no connection.
+                    if(MainClient?.Connected == false) {
+                        RenderUtils.Echo("Client has been disconnected. Attempt reconnect? ");
+                        if(YesNo()) { MainClient.Reconnect(); } else { MainClient = null; }
+                        RenderUtils.Echo("\n\n");
+                    }
+
+                    if(MainClient == null) { RenderUtils.Echo("Client is not connected! Connect using CONNECT [IP]:[PORT]"); }  //warn the user if there's no connection.
                     else {
                         //The console doesn't need to check if the client is busy since there are no other threads, but if you're doing this with a background worker and are trying to send
                         //anything maybe check that.
-                        try { RenderUtils.Echo(MainClient.SendReceive(prompt)); } catch(Exception) { Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?",ConsoleColor.Black,ConsoleColor.Red); }
+                        try { RenderUtils.Echo(MainClient.SendReceive(prompt)); } catch(Exception E) { Draw.Sprite("There was an error sending/receiving this command. Perhaps the server was disconnected?\n\n" + E.Message + "\n" + E.StackTrace,ConsoleColor.Black,ConsoleColor.Red); }
                     }
                     break;
             }

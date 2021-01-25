@@ -13,7 +13,7 @@ namespace Igtampe.Switchboard.Common {
         //------------------------------[Variables]------------------------------
 
         /// <summary>Main TCP Client</summary>
-        private readonly TcpClient Client;
+        private TcpClient Client;
 
         /// <summary>haha River like a larger stream ahahaha</summary>
         private NetworkStream River;
@@ -85,7 +85,6 @@ namespace Igtampe.Switchboard.Common {
             this.IP = IP;
             this.Port = Port;
             this.ConsoleMode = ConsoleMode;
-            Client = new TcpClient();
         }
 
         //------------------------------[Functions]------------------------------
@@ -101,6 +100,7 @@ namespace Igtampe.Switchboard.Common {
 
             //Attempt to connect.
             Console.Write("Attempting to connect to " + IP + ":" + Port + " ");
+            Client = new TcpClient();
             Client.ConnectAsync(IP,Port);
 
             //15 second time out
@@ -140,18 +140,28 @@ namespace Igtampe.Switchboard.Common {
             if(ID == -1) { return ReconnectResult.NOTPOSSIBLE; }
 
             int ReconnectID = ID;
-            Console.WriteLine("Attempting to reconnect to connection with ID " + ReconnectID);
+            Console.WriteLine("\n\nAttempting to reconnect to connection with ID " + ReconnectID + "\n");
 
             if(Connect()) {
 
-                Console.WriteLine("Attempting to rebind...");
-                if(SendReceive("REBIND " + ReconnectID) == "OK") {
+                Console.WriteLine("Attempting to rebind connection with ID " + ReconnectID + " to this connection\n");
+                string RebindResult = SendReceive("REBIND " + ReconnectID);
+                if(RebindResult == "OK") {
 
-                    Console.WriteLine("Rebind successful! Connection re-established");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Rebind successful! Connection re-established\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
                     return ReconnectResult.SUCCESS; 
                 
-                } 
+                }
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Rebind unsuccessful. " + RebindResult + "\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 return ReconnectResult.NOREBIND;
+
             }
 
             return ReconnectResult.NOCONNECT;
