@@ -107,8 +107,32 @@ namespace Igtampe.Switchboard.Console {
 
                     //Try to send the commend to the server.
                     if(MainClient?.Connected == false) {
-                        RenderUtils.Echo("Client has been disconnected. Attempt reconnect? ");
-                        if(YesNo()) { MainClient.Reconnect(); } else { MainClient = null; }
+
+                        if(MainClient.ID == -1) { 
+                            RenderUtils.Echo("Connection to the server has been interrupted unexpectedly and cannot be automatically reconnected.");
+                            MainClient = null;
+                        }
+
+                        RenderUtils.Echo("Connection to the server has been interrupted unexpectedly. Attempt reconnect? ");
+                        if(YesNo()) {
+
+                            switch(MainClient.Reconnect()) {
+                                case SwitchboardClient.ReconnectResult.SUCCESS:
+                                    break;
+                                case SwitchboardClient.ReconnectResult.NOREBIND:
+                                    if(Prefix.Contains("@")) { UpdatePrefix(Prefix.Split('@')[1]);} //remove the login
+                                    break;
+                                case SwitchboardClient.ReconnectResult.NOCONNECT:
+                                    //Return. Give the user a chance to try *again*
+                                    return;
+                                case SwitchboardClient.ReconnectResult.NOTPOSSIBLE:
+                                    //this shouldn't happen but ok
+                                    return;
+                                default:
+                                    break;
+                            }
+
+                        } else { MainClient = null; }
                         RenderUtils.Echo("\n\n");
                     }
 

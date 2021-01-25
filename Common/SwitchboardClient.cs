@@ -25,10 +25,10 @@ namespace Igtampe.Switchboard.Common {
         public bool Available => River.DataAvailable;
 
         /// <summary>counter for the animation</summary>
-        private static int ConnectionStatus=0;
+        private static int ConnectionStatus = 0;
 
         /// <summary>ID of this connection</summary>
-        private int ID=-1;
+        public int ID { get; protected set; } = -1;
 
         /// <summary>IP of the remote server.</summary>
         public string IP { get; private set; }
@@ -125,7 +125,9 @@ namespace Igtampe.Switchboard.Common {
             River = Client.GetStream();
 
             //See if we can reconnect
-            if(int.TryParse(SendReceive("ID"),out ID)) {Console.WriteLine("Connection ID: " + ID + "\n");}
+            if(int.TryParse(SendReceive("ID"),out int ID1)) {Console.WriteLine("Connection ID: " + ID1 + "\n");}
+
+            ID = ID1;
 
             //Also display the welcome message
             Console.WriteLine(SendReceive("WELCOME"));
