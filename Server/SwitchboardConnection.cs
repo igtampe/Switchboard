@@ -164,7 +164,27 @@ namespace Igtampe.Switchboard.Server {
                             Close(true);
                             return;
                         case "USERINFO":
-                            Reply = string.Join("~",User.GetUsername(),User.GetPLevel());
+                            if(CommandSplit.Length == 1) { Reply = User.InfoString(); }
+                            if(CommandSplit.Length == 2) {
+
+                                //Check if they want info on the anonymous user
+                                if(CommandSplit[1].ToUpper() == HeadServer.AnonymousUser.GetUsername().ToUpper()) {
+                                    Reply = HeadServer.AnonymousUser.InfoString();
+                                    break;
+                                }
+
+                                //Find the given user
+                                foreach(SwitchboardUser U in HeadServer.Users) {
+                                    if(U.GetUsername().ToUpper() == CommandSplit[1].ToUpper()) {
+                                        Reply = U.InfoString();
+                                        break;
+                                    }
+                                }
+
+                                //Make sure that if we haven't found it, we say we didn't find it.
+                                if(string.IsNullOrWhiteSpace(Reply)) { Reply = "NOTFOUND~-1~0"; }
+                            
+                            }
                             break;
                         case "ID":
                             Reply = ID + "";
@@ -207,7 +227,7 @@ namespace Igtampe.Switchboard.Server {
                             break;
                     }
 
-                    if(String.IsNullOrWhiteSpace(Reply)) { Reply = "An unspecified error occured"; }
+                    if(string.IsNullOrWhiteSpace(Reply)) { Reply = "An unspecified error occured"; }
 
                     //Time to return whatever it is we got.
                     Send(Reply);
@@ -218,11 +238,11 @@ namespace Igtampe.Switchboard.Server {
 
             /// <summary>Sends data to the client of this connection, updating last message</summary>
             /// <param name="Data"></param>
-            public void Send(String Data) { Send(Data,true); }
+            public void Send(string Data) { Send(Data,true); }
 
             /// <summary>Sends data to the client of this connection</summary>
-            public void Send(String Data, bool UpdateLastMessage) {
-                Byte[] ReturnBytes = Encoding.ASCII.GetBytes(Data);
+            public void Send(string Data, bool UpdateLastMessage) {
+                byte[] ReturnBytes = Encoding.ASCII.GetBytes(Data);
                 River.Write(ReturnBytes,0,ReturnBytes.Length);
                 ConsolePreview += Environment.NewLine + Data.Replace("\n",Environment.NewLine) + Environment.NewLine + Environment.NewLine;
                 if(UpdateLastMessage) { LastMessage = Data; }

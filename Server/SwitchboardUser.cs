@@ -82,6 +82,10 @@ namespace Igtampe.Switchboard.Server {
         /// <returns>A string that represents this user</returns>
         public override string ToString() { return string.Join("~",Username,Password,PermissionLevel,LastOnline); }
 
+        /// <summary>Returns an information string on the user</summary>
+        /// <returns>A string that contains username, permission level, online status, and lastonline date separated by tildes</returns>
+        public string InfoString() { return string.Join("~",Username,PermissionLevel,Online,LastOnline); }
+
     }
 
 
