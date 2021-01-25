@@ -23,6 +23,7 @@ namespace Igtampe.Switchboard.Server.Forms {
             else {UsernameLabel.Text = "User Disconnected";}
             Text = UsernameLabel.Text;
 
+            IDLabel.Text = "Connection ID: " + MyConnection.ID.ToString();  
             OnlineSinceLabel.Text = "Online since: " + MyConnection.GetConnectedSince().ToString();
             LastOfflineLabel.Text = "Last offline: " + MyConnection.GetUser().GetLastOnline();
 

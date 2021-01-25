@@ -19,7 +19,10 @@ namespace Igtampe.Switchboard.Server {
         private bool LogPenBusy = false;
 
         /// <summary>List that holds active connections</summary>
-        protected List<SwitchboardConnection> Connections;
+        protected Dictionary<int, SwitchboardConnection> Connections;
+
+        /// <summary>Randomizer for Connection IDs</summary>
+        protected Random Randomizer = new Random();
 
         /// <summary>List that holds extensions</summary>
         protected List<SwitchboardExtension> Extensions;
@@ -54,7 +57,7 @@ namespace Igtampe.Switchboard.Server {
             private readonly SwitchboardServer HeadServer;
 
             //~~~~~~~~~~~~~~{Constructor}~~~~~~~~~~~~~~
-            public SwitchboardMainExtension(SwitchboardServer Main) : base("MAIN","1.0") {HeadServer = Main;}
+            public SwitchboardMainExtension(SwitchboardServer Main) : base("MAIN","1.1") {HeadServer = Main;}
 
             //~~~~~~~~~~~~~~{Functions}~~~~~~~~~~~~~~
             public override string Help() {
@@ -68,7 +71,10 @@ namespace Igtampe.Switchboard.Server {
                     "CLOSE                          : Closes the connection and disconnects you from the server \n" +
                     "LOGIN (USERNAME) (PASSWORD)    : Logs you in if you're currently anonymous\n" +
                     "LOGOUT                         : Logs you out of this terminal, maintains you connected as an anonymous user.\n" +
-                    "WELCOME                        : Shows this server's welcome message" +
+                    "REPEAT                         : Repeats last message \n"+
+                    "ID                             : Sends the ID of this connection\n"+
+                    "REBIND (CONNECTION ID)         : Binds this connection to a previous connection\n"+
+                    "WELCOME                        : Shows this server's welcome message\n" +
                     "\n" +
                     "More user options are available on the server GUI program";
             }
@@ -160,7 +166,7 @@ namespace Igtampe.Switchboard.Server {
 
             //Create the Connections list
             ToLog("One last thing...");
-            Connections = new List<SwitchboardConnection>();
+            Connections = new Dictionary<int, SwitchboardConnection>();
 
             //Finally, Actually start the server.
             ToLog("Actually starting the server...");
@@ -180,7 +186,12 @@ namespace Igtampe.Switchboard.Server {
         }
 
         /// <summary>Gets All Active Connections</summary>
-        public List<SwitchboardConnection> GetConnections() { return Connections; }
+        public List<SwitchboardConnection> GetConnections() {
+
+            //OK for compatibility's sake:
+            return new List<SwitchboardConnection>(Connections.Values);
+
+        }
 
         //------------------------------[Functions]------------------------------
 
@@ -196,15 +207,17 @@ namespace Igtampe.Switchboard.Server {
 
             //Check if we need to let in another connection.
             if(Ears.Pending()) {
-                SwitchboardConnection Connection = new SwitchboardConnection(this,Ears.AcceptSocket());
-                Connections.Add(Connection); //Let them in to the system.
+                int newID = GetNewConnectionID();
+
+                SwitchboardConnection Connection = new SwitchboardConnection(this,Ears.AcceptSocket(), newID);
+                Connections.Add(newID,Connection); //Let them in to the system.
                 Connection.StartAsync();
                 TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
             } 
 
-            foreach(SwitchboardConnection Connection in Connections.ToArray()) {
+            foreach(SwitchboardConnection Connection in GetConnections()) {
                 if(!Connection.IsConnected) { 
-                    Connections.Remove(Connection);  //if the connection was closed, remove it from the list
+                    Connections.Remove(Connection.ID);  //if the connection was closed, remove it from the list
                     TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
                 }
             }
@@ -214,11 +227,17 @@ namespace Igtampe.Switchboard.Server {
 
         }
 
+        private int GetNewConnectionID() {
+            int newID = Randomizer.Next();
+            while(Connections.ContainsKey(newID)) { newID = Randomizer.Next(); }
+            return newID;
+        }
+
         /// <summary>Closes the server</summary>
         public void Close() {
 
             //Close each connection
-            foreach(SwitchboardConnection Connection in Connections) { Connection.Close(); }
+            foreach(SwitchboardConnection Connection in Connections.Values) { Connection.Close(); }
 
             SaveUsers(); //Save users when we close.
 

@@ -18,13 +18,17 @@ namespace Igtampe.Switchboard.Server {
             private readonly SwitchboardServer HeadServer;
 
             private readonly DateTime ConnectedSince;
-            private readonly IPEndPoint IP;
+            private IPEndPoint IP;
             private SwitchboardUser User;
 
-            private readonly NetworkStream River;
-            private readonly Socket TheSocket;
+            public readonly int ID;
+
+            private NetworkStream River;
+            private Socket TheSocket;
 
             private string ConsolePreview;
+            private string LastMessage="";
+
             public bool IsConnected => TheSocket.Connected;
             public bool Busy { get; protected set; } = false;
 
@@ -32,8 +36,10 @@ namespace Igtampe.Switchboard.Server {
 
             //~~~~~~~~~~~~~~{Constructor}~~~~~~~~~~~~~~
 
-            public SwitchboardConnection(SwitchboardServer HeadServer,Socket MainSocket) {
-            
+            public SwitchboardConnection(SwitchboardServer HeadServer,Socket MainSocket, int ID) {
+
+                this.ID = ID;
+
                 ConnectedSince = DateTime.Now;
                 IP = (IPEndPoint)MainSocket.RemoteEndPoint;
                 River = new NetworkStream(MainSocket);
@@ -53,6 +59,44 @@ namespace Igtampe.Switchboard.Server {
             public DateTime GetConnectedSince() { return ConnectedSince; }
             public IPEndPoint GetIP() { return IP; }
 
+            //~~~~~~~~~~~~~~{Setter}~~~~~~~~~~~~~~
+
+            /// <summary>Merges two connections, grabbing the socket from this conneciton</summary>
+            /// <param name="OtherConnection"></param>
+            public void AbsorbConnection(SwitchboardConnection OtherConnection) {
+
+                while(Busy) { } //Wait for *this* connection to not be busy
+
+                TickThread.Abort(); //Stop the thread
+
+                //Close this connection's river and socket
+                River.Close();
+                TheSocket.Close();
+
+                //Move everything over
+                River = OtherConnection.River;
+                TheSocket = OtherConnection.TheSocket;
+                IP = OtherConnection.IP;
+
+                //Send OK
+                Send("OK",false);
+
+                //Start async again
+                StartAsync();
+                
+                //Log it
+                HeadServer.ToLog("User from " + IP.Address.ToString() + " reconnected from " + OtherConnection.IP.Address.ToString());
+
+                //Remove the other connection from the list of connections
+                HeadServer.Connections.Remove(OtherConnection.ID);
+
+                //Look at how far back we can go
+                HeadServer.TheForm.ServerBWorker.ReportProgress(0); //Refresh the main form's listview.
+
+                //Stop the other tickthread. This will stop *this* operation, so it's the last one to go.
+                OtherConnection.TickThread.Abort();
+            }
+
             //~~~~~~~~~~~~~~{Functions}~~~~~~~~~~~~~~
 
             /// <summary>Ticks this connection. Essentially processes any input it may need to parse.</summary>
@@ -67,7 +111,7 @@ namespace Igtampe.Switchboard.Server {
                     while(River.DataAvailable) { Bytes.Add((byte)River.ReadByte()); }
 
                     //Parse that array of bytes as a ASCII encoded string
-                    String Command = System.Text.Encoding.ASCII.GetString(Bytes.ToArray());
+                    String Command = Encoding.ASCII.GetString(Bytes.ToArray());
                     
                     //Handle VBNullChar or \0 in this case.
                     Command = Command.Replace("\0","");
@@ -119,6 +163,36 @@ namespace Igtampe.Switchboard.Server {
                         case "CLOSE":
                             Close(true);
                             return;
+                        case "ID":
+                            Reply = ID + "";
+                            break;
+                        case "REBIND":
+
+                            //Check if the rebind exist
+                            try {
+                                int OtherConnectionID = int.Parse(CommandSplit[1]);
+
+                                if(OtherConnectionID == ID) { 
+                                    Reply = "Could not rebind connection " + ID + ". Cannot rebind connection to itself";
+                                    break;
+                                }
+
+                                if(!HeadServer.Connections.ContainsKey(OtherConnectionID)) {
+                                    Reply = "Could not rebind connection " + OtherConnectionID + ". It was not found.";
+                                    break;
+                                }
+
+                                HeadServer.Connections[OtherConnectionID].AbsorbConnection(this);
+
+                                //Absorbing this connection should stop the thread but just in case
+                                TickThread.Abort();
+
+                            } catch(Exception E) {Reply = "An Exception Occurred:\n\n" + E.Message + "\n" + E.StackTrace;}
+
+                            break;
+                        case "REPEAT":
+                            Reply = LastMessage;
+                            break;
                         default:
                             if(!HeadServer.AllowAnonymous && User == HeadServer.AnonymousUser) { Reply = "You're unauthorized to run any other commands."; } else {
                                 foreach(SwitchboardExtension extension in HeadServer.Extensions) {
@@ -130,6 +204,8 @@ namespace Igtampe.Switchboard.Server {
                             break;
                     }
 
+                    if(String.IsNullOrWhiteSpace(Reply)) { Reply = "An unspecified error occured"; }
+
                     //Time to return whatever it is we got.
                     Send(Reply);
                     //and we're done.
@@ -137,11 +213,16 @@ namespace Igtampe.Switchboard.Server {
                 }
             }
 
+            /// <summary>Sends data to the client of this connection, updating last message</summary>
+            /// <param name="Data"></param>
+            public void Send(String Data) { Send(Data,true); }
+
             /// <summary>Sends data to the client of this connection</summary>
-            public void Send(String Data) {
-                Byte[] ReturnBytes = System.Text.Encoding.ASCII.GetBytes(Data);
+            public void Send(String Data, bool UpdateLastMessage) {
+                Byte[] ReturnBytes = Encoding.ASCII.GetBytes(Data);
                 River.Write(ReturnBytes,0,ReturnBytes.Length);
                 ConsolePreview += Environment.NewLine + Data.Replace("\n",Environment.NewLine) + Environment.NewLine + Environment.NewLine;
+                if(UpdateLastMessage) { LastMessage = Data; }
             }
 
             public void Close() { Close(false); }
